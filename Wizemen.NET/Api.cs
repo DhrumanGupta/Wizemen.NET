@@ -20,8 +20,7 @@ namespace Wizemen.NET
         private readonly CookieContainer _cookies = new();
 
         private readonly HttpClient _client;
-
-        // private readonly HttpClient _client = new();
+        
         private readonly Credentials _credentials;
         private readonly string _fullLink;
 
@@ -43,14 +42,7 @@ namespace Wizemen.NET
                 "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.164 Safari/537.36");
             _client.DefaultRequestHeaders.Add("X-Requested-With", "XMLHttpRequest");
         }
-
-        /// <summary>
-        /// Makes a post to the API. Cookies and headers are managed here
-        /// </summary>
-        /// <param name="path">Relative path to the API</param>
-        /// <param name="method">The request method</param>
-        /// <param name="content">Data to post</param>
-        /// <returns>The response message</returns>
+        
 #nullable enable
         internal async Task<HttpResponseMessage> Request(string path,
             object? content = null, HttpMethod? method = null, bool ignoreContent =false)

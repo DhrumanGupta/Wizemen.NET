@@ -1,10 +1,18 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Text.RegularExpressions;
 
 namespace Wizemen.NET.Models
 {
     public class Credentials
     {
+        private readonly Dictionary<SchoolCode, string> _schoolNameByCode = new()
+        {
+            {SchoolCode.PSN, "Pathways School Noida"},
+            {SchoolCode.PSG, "Pathways School Gurgaon"},
+            {SchoolCode.PWS, "Pathways World School, Aravali"}
+        };
+        
         /// <summary>
         /// Creates the credentials object
         /// </summary>
@@ -25,20 +33,7 @@ namespace Wizemen.NET.Models
             Email = email;
             Password = password;
             SchoolCode = schoolCode;
-            switch (schoolCode)
-            {
-                case SchoolCode.PSN:
-                    SchoolName = "Pathways School Noida";
-                    break;
-
-                case SchoolCode.PSG:
-                    SchoolName = "Pathways School Gurgaon";
-                    break;
-
-                case SchoolCode.PWS:
-                    SchoolName = "Pathways World School, Aravali";
-                    break;
-            }
+            SchoolName = _schoolNameByCode[schoolCode];
         }
         
         /// <summary>
@@ -57,8 +52,8 @@ namespace Wizemen.NET.Models
         public SchoolCode SchoolCode { get; }
 
         /// <summary>
-        /// The school's Name
+        /// The school's Name (Auto generated depending on <see cref="SchoolCode"/>)
         /// </summary>
-        public string SchoolName { get; set; }
+        public string SchoolName { get; }
     }
 }

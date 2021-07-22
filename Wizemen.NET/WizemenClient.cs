@@ -78,9 +78,9 @@ namespace Wizemen.NET
         }
 
         /// <summary>
-        /// Gets the classes of the authenticated user
+        /// Gets the events of the authenticated user
         /// </summary>
-        /// <returns></returns>
+        /// <returns>The events found. Returns an empty list if none were found</returns>
         public async Task<List<Event>> GetEventsAsync()
         {
             const string path = "/classes/student/studentclasscalendar.aspx/getEvents";
