@@ -8,8 +8,7 @@
         <PackageLicenseExpression>MIT</PackageLicenseExpression>
         <RepositoryUrl>https://github.com/DhrumanGupta/Wizemen.NET</RepositoryUrl>
         
-        <DocumentationFile>Documentation.md</DocumentationFile>
-        <VsxmdAutoDeleteXml>True</VsxmdAutoDeleteXml>
+        <DocumentationFile>$(MSBuildProjectDirectory)\Documentation.md</DocumentationFile>
     </PropertyGroup>
 
     <ItemGroup>
