@@ -1,29 +1,41 @@
-﻿using Newtonsoft.Json;
+﻿using System;
+using Newtonsoft.Json;
+using Wizemen.NET.DtoModels;
 
 namespace Wizemen.NET.Models
 {
     public class Meeting
     {
-        [JsonProperty("meeting_id")] public string MeetingId { get; set; }
+        public string Topic { get; set; }
+        
+        public DateTime StartTime { get; set; }
 
-        [JsonProperty("topic")] public string Topic { get; set; }
+        public int Duration { get; set; }
 
-        [JsonProperty("start_date")] public string StartDate { get; set; }
+        public string Agenda { get; set; }
 
-        [JsonProperty("start_time")] public string StartTime { get; set; }
+        public string JoinUrl { get; set; }
+        
+        public string Id => JoinUrl.Split('/')[^1].Split('?')[0];
 
-        [JsonProperty("duration")] public string Duration { get; set; }
+        public string Password { get; set; }
 
-        [JsonProperty("agenda")] public string Agenda { get; set; }
+        public string Host { get; set; }
 
-        [JsonProperty("start_url")] public object StartUrl { get; set; }
+        internal static Meeting FromDto(MeetingDto dto)
+        {
+            var meeting = new Meeting {Topic = dto.Topic};
 
-        [JsonProperty("join_url")] public string JoinUrl { get; set; }
+            var time = dto.StartTime;
+            meeting.StartTime = dto.StartDate.AddHours(time.Hour).AddMinutes(time.Minute).AddSeconds(time.Second);
 
-        [JsonProperty("meeting_password")] public string MeetingPassword { get; set; }
-
-        [JsonProperty("attendees")] public object Attendees { get; set; }
-
-        [JsonProperty("host")] public string Host { get; set; }
+            meeting.Duration = dto.Duration;
+            meeting.Agenda = dto.Agenda;
+            meeting.JoinUrl = dto.JoinUrl;
+            meeting.Password = dto.MeetingPassword;
+            meeting.Host = dto.Host;
+                
+            return meeting;
+        }
     }
 }
