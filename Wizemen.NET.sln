@@ -1,0 +1,22 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Wizemen.NET", "Wizemen.NET\Wizemen.NET.csproj", "{8D831DB1-CB0F-47C0-81A8-4E27E567ACAD}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestApp", "TestApp\TestApp.csproj", "{D17FAFB8-5C50-4D2B-B437-A6AE21B9835E}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{8D831DB1-CB0F-47C0-81A8-4E27E567ACAD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8D831DB1-CB0F-47C0-81A8-4E27E567ACAD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8D831DB1-CB0F-47C0-81A8-4E27E567ACAD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8D831DB1-CB0F-47C0-81A8-4E27E567ACAD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D17FAFB8-5C50-4D2B-B437-A6AE21B9835E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D17FAFB8-5C50-4D2B-B437-A6AE21B9835E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D17FAFB8-5C50-4D2B-B437-A6AE21B9835E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D17FAFB8-5C50-4D2B-B437-A6AE21B9835E}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
