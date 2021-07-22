@@ -6,6 +6,7 @@
         <PackageVersion>1.0.0</PackageVersion>
         <Authors>Dhruman Gupta</Authors>
         <PackageLicenseExpression>MIT</PackageLicenseExpression>
+        <RepositoryUrl>https://github.com/DhrumanGupta/Wizemen.NET</RepositoryUrl>
     </PropertyGroup>
 
     <ItemGroup>
