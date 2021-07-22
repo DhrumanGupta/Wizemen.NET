@@ -8,7 +8,7 @@
         <PackageLicenseExpression>MIT</PackageLicenseExpression>
         <RepositoryUrl>https://github.com/DhrumanGupta/Wizemen.NET</RepositoryUrl>
         
-        <DocumentationFile>$(MSBuildProjectDirectory)\Documentation.md</DocumentationFile>
+        <DocumentationFile>$(MSBuildProjectDirectory)\README.md</DocumentationFile>
     </PropertyGroup>
 
     <ItemGroup>
