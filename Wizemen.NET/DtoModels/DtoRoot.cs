@@ -7,5 +7,10 @@ namespace Wizemen.NET.DtoModels
     {
         [JsonProperty("d")] 
         public List<T> D { get; set; }
+
+        public DtoRoot()
+        {
+            D = new List<T>();
+        }
     }
 }

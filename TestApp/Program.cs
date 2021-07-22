@@ -16,13 +16,21 @@ namespace TestApp
             var credentials = JsonConvert.DeserializeObject<Credentials>(await File.ReadAllTextAsync("config.json"));
             var client = new WizemenClient(credentials);
 
-            await client.Start();
-            await TestClasses(client);
+            await client.StartAsync();
         }
 
+        private static async Task TestEvents(WizemenClient client)
+        {
+            var events = await client.GetEventsAsync();
+            foreach (var c in events)
+            {
+                Console.WriteLine($"{c.Title}");
+            }
+        }
+        
         private static async Task TestClasses(WizemenClient client)
         {
-            var classes = await client.GetClasses();
+            var classes = await client.GetClassesAsync();
             foreach (var c in classes)
             {
                 Console.WriteLine($"{c.Course}");
@@ -31,7 +39,7 @@ namespace TestApp
 
         private static async Task TestMeetings(WizemenClient client)
         {
-            var meetings = await client.GetMeetings();
+            var meetings = await client.GetMeetingsAsync();
             
             var currTime = new DateTime(2021, 7, 22, 8, 25, 0);
             var uniDay = currTime.DayOfYear;
@@ -41,8 +49,7 @@ namespace TestApp
                 .ToList();
             
             Console.WriteLine($"Found {meetings.Count} meetings");
-            
-            
+
             var finalMeetings = (from meeting in meetings
                 let minutesDiff = (currTime - meeting.StartTime).TotalMinutes
                 where minutesDiff < meeting.Duration - 10 && minutesDiff >= -5

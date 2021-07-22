@@ -29,7 +29,10 @@ namespace Wizemen.NET
             _api = new Api(credentials);
         }
 
-        public async Task Start()
+        /// <summary>
+        /// Login, generate a cookie, and verify the cookie to enable access to the API.
+        /// </summary>
+        public async Task StartAsync()
         {
             await _api.Login();
             var data = await _api.Request("/generaldata.asmx/openPortal",
@@ -47,7 +50,11 @@ namespace Wizemen.NET
             await _api.Request(link, null, HttpMethod.Get, true);
         }
 
-        public async Task<List<Meeting>> GetMeetings()
+        /// <summary>
+        /// Gets the meetings for the authenticated user
+        /// </summary>
+        /// <returns>The meetings found. Returns an empty list if none were found</returns>
+        public async Task<List<Meeting>> GetMeetingsAsync()
         {
             const string path = "/classes/student/VirtualClassZoomStudent.aspx/getScheduledMeetings";
             var data = await GetDataAsync(path);
@@ -56,7 +63,11 @@ namespace Wizemen.NET
             return meetings.D.Select(Meeting.FromDto).ToList();
         }
 
-        public async Task<List<Class>> GetClasses()
+        /// <summary>
+        /// Gets the classes of the authenticated user
+        /// </summary>
+        /// <returns>The classes found. Returns an empty list if none were found</returns>
+        public async Task<List<Class>> GetClassesAsync()
         {
             const string path = "/classes/student/allclasses.aspx/getClassList";
             var data = await GetDataAsync(path);
@@ -64,6 +75,26 @@ namespace Wizemen.NET
                           ?? new DtoRoot<ClassDto>();
 
             return classes.D.Select(Class.FromDto).ToList();
+        }
+
+        /// <summary>
+        /// Gets the classes of the authenticated user
+        /// </summary>
+        /// <returns></returns>
+        public async Task<List<Event>> GetEventsAsync()
+        {
+            const string path = "/classes/student/studentclasscalendar.aspx/getEvents";
+            
+            var response = await _api.Request(path, new Dictionary<string, string>()
+            {
+                {"movdir", "Current"}
+            });
+            
+            var data = await response.Content.ReadAsStringAsync();
+            var events = JsonConvert.DeserializeObject<DtoRoot<EventDto>>(data)
+                          ?? new DtoRoot<EventDto>();
+
+            return events.D.Select(Event.FromDto).ToList();
         }
 
         private async Task<string> GetDataAsync(string path)
