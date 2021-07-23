@@ -3,7 +3,7 @@
     <PropertyGroup>
         <TargetFramework>net5.0</TargetFramework>
         <AssemblyName>Wizemen.NET</AssemblyName>
-        <PackageVersion>1.0.0</PackageVersion>
+        <PackageVersion>1.0.1</PackageVersion>
         <Authors>Dhruman Gupta</Authors>
         <PackageLicenseExpression>MIT</PackageLicenseExpression>
         <RepositoryUrl>https://github.com/DhrumanGupta/Wizemen.NET</RepositoryUrl>

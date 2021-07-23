@@ -1,9 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using System.Net.Http;
-using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 using Wizemen.NET.DtoModels;
@@ -18,6 +16,7 @@ namespace Wizemen.NET
     {
         private readonly Api _api;
         private readonly Credentials _credentials;
+        private DateTime _endTime;
 
         /// <summary>
         /// Creates a client used to interact with the API
@@ -33,6 +32,12 @@ namespace Wizemen.NET
         /// Login, generate a cookie, and verify the cookie to enable access to the API.
         /// </summary>
         public async Task StartAsync()
+        {
+            _endTime = DateTime.Now.AddHours(1);
+            await RefreshAsync();
+        }
+
+        private async Task RefreshAsync()
         {
             await _api.Login();
             var data = await _api.Request("/generaldata.asmx/openPortal",
@@ -56,6 +61,7 @@ namespace Wizemen.NET
         /// <returns>The meetings found. Returns an empty list if none were found</returns>
         public async Task<List<Meeting>> GetMeetingsAsync()
         {
+            await RefreshIfNeededAsync();
             const string path = "/classes/student/VirtualClassZoomStudent.aspx/getScheduledMeetings";
             var data = await GetDataAsync(path);
             var meetings = JsonConvert.DeserializeObject<DtoRoot<MeetingDto>>(data)
@@ -69,6 +75,7 @@ namespace Wizemen.NET
         /// <returns>The classes found. Returns an empty list if none were found</returns>
         public async Task<List<Class>> GetClassesAsync()
         {
+            await RefreshIfNeededAsync();
             const string path = "/classes/student/allclasses.aspx/getClassList";
             var data = await GetDataAsync(path);
             var classes = JsonConvert.DeserializeObject<DtoRoot<ClassDto>>(data)
@@ -83,6 +90,7 @@ namespace Wizemen.NET
         /// <returns>The events found. Returns an empty list if none were found</returns>
         public async Task<List<Event>> GetEventsAsync()
         {
+            await RefreshIfNeededAsync();
             const string path = "/classes/student/studentclasscalendar.aspx/getEvents";
             
             var response = await _api.Request(path, new Dictionary<string, string>()
@@ -97,10 +105,21 @@ namespace Wizemen.NET
             return events.D.Select(Event.FromDto).ToList();
         }
 
+        #region Helpers
+
         private async Task<string> GetDataAsync(string path)
         {
             var response = await _api.Request(path, new Dictionary<string, string>());
             return await response.Content.ReadAsStringAsync();
         }
+
+        private async Task RefreshIfNeededAsync()
+        {
+            if (DateTime.Now > _endTime)
+            {
+                await RefreshAsync();
+            }
+        }
+        #endregion
     }
 }
