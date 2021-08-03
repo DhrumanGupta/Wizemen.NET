@@ -4,7 +4,7 @@ using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
-using Wizemen.NET.DtoModels;
+using Wizemen.NET.Dtos;
 using Wizemen.NET.Models;
 
 namespace Wizemen.NET
@@ -58,12 +58,18 @@ namespace Wizemen.NET
         /// <summary>
         /// Gets the meetings for the authenticated user
         /// </summary>
+        /// <param name="meetingType">The type of meeting to get</param>
         /// <returns>The meetings found. Returns an empty list if none were found</returns>
-        public async Task<List<Meeting>> GetMeetingsAsync()
+        public async Task<List<Meeting>> GetMeetingsAsync(MeetingType meetingType)
         {
             await RefreshIfNeededAsync();
-            const string path = "/classes/student/VirtualClassZoomStudent.aspx/getScheduledMeetings";
-            var data = await GetDataAsync(path);
+            var linkByPath = new Dictionary<MeetingType, string>
+            {
+                {MeetingType.Zoom, "/classes/student/VirtualClassZoomStudent.aspx/getScheduledMeetings"},
+                {MeetingType.Teams, "/classes/student/VirtualClassTeamsStudent.aspx/getScheduledMeetings"}
+            };
+            
+            var data = await GetDataAsync(linkByPath[meetingType]);
             var meetings = JsonConvert.DeserializeObject<DtoRoot<MeetingDto>>(data)
                            ?? new DtoRoot<MeetingDto>();
             return meetings.D.Select(Meeting.FromDto).ToList();
@@ -85,6 +91,26 @@ namespace Wizemen.NET
         }
 
         /// <summary>
+        /// Returns a list of all the students in a class
+        /// </summary>
+        /// <param name="classId">The classId to get the students in</param>
+        /// <returns>A list of the students found. Returns an empty list if none were found (invalid classId)</returns>
+        public async Task<List<Student>> GetClassListAsync(string classId)
+        {
+            await _api.Request("/classes/student/studenthomeold.aspx/setclasssession", 
+                new {class_id = "1144", classname = ""
+            });
+
+            var data = await _api.Request("/classes/faculty/facultyclassroster.aspx/showclasslist",
+                new {menuid = ""});
+
+            var students = JsonConvert.DeserializeObject<DtoRoot<Student>>(await data.Content.ReadAsStringAsync())
+                          ?? new DtoRoot<Student>();
+            
+            return students.D;
+        }
+
+        /// <summary>
         /// Gets the events of the authenticated user
         /// </summary>
         /// <returns>The events found. Returns an empty list if none were found</returns>
@@ -97,6 +123,8 @@ namespace Wizemen.NET
             {
                 {"movdir", "Current"}
             });
+            
+            // https://psn.wizemen.net/classes/student/VirtualClassTeamsStudent.aspx/getScheduledMeetings
             
             var data = await response.Content.ReadAsStringAsync();
             var events = JsonConvert.DeserializeObject<DtoRoot<EventDto>>(data)

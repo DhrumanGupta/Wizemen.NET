@@ -5,8 +5,17 @@
     /// </summary>
     public enum SchoolCode
     {
-        PSN,
-        PSG,
-        PWS
+        /// <summary>
+        /// Pathways School Noida
+        /// </summary>
+        Psn,
+        /// <summary>
+        /// Pathways School Gurgaon
+        /// </summary>
+        Psg,
+        /// <summary>
+        /// Pathways World School, Aravali
+        /// </summary>
+        Pws
     }
 }

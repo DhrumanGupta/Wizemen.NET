@@ -1,9 +1,9 @@
 ﻿using System;
 using Newtonsoft.Json;
 
-namespace Wizemen.NET.DtoModels
+namespace Wizemen.NET.Dtos
 {
-    public class EventDto
+    internal class EventDto
     {
         [JsonProperty("event_type")] public string EventType { get; set; }
 

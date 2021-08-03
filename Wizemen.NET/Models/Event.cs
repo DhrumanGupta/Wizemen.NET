@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Xml;
-using Wizemen.NET.DtoModels;
+using Wizemen.NET.Dtos;
 
 namespace Wizemen.NET.Models
 {
@@ -44,7 +44,7 @@ namespace Wizemen.NET.Models
         /// </summary>
         public string ColorCode { get; set; }
 
-        public static Event FromDto(EventDto dto)
+        internal static Event FromDto(EventDto dto)
         {
             return new()
             {

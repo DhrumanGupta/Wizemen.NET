@@ -4,13 +4,16 @@ using System.Text.RegularExpressions;
 
 namespace Wizemen.NET.Models
 {
+    /// <summary>
+    /// Credentials object used to authenticate user
+    /// </summary>
     public class Credentials
     {
         private readonly Dictionary<SchoolCode, string> _schoolNameByCode = new()
         {
-            {SchoolCode.PSN, "Pathways School Noida"},
-            {SchoolCode.PSG, "Pathways School Gurgaon"},
-            {SchoolCode.PWS, "Pathways World School, Aravali"}
+            {SchoolCode.Psn, "Pathways School Noida"},
+            {SchoolCode.Psg, "Pathways School Gurgaon"},
+            {SchoolCode.Pws, "Pathways World School, Aravali"}
         };
         
         /// <summary>

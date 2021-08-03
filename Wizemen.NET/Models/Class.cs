@@ -1,4 +1,4 @@
-﻿using Wizemen.NET.DtoModels;
+﻿using Wizemen.NET.Dtos;
 
 namespace Wizemen.NET.Models
 {

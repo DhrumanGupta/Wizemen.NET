@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using Newtonsoft.Json;
 
-namespace Wizemen.NET.DtoModels
+namespace Wizemen.NET.Dtos
 {
     internal class MeetingDto
     {
