@@ -16,13 +16,13 @@ namespace Testing
 
         private static async Task Async()
         {
-            var client = new WizemenClient(JsonConvert.DeserializeObject<Credentials>(File.ReadAllText("config.json")));
+            var client = new WizemenClient(JsonConvert.DeserializeObject<Credentials>(await File.ReadAllTextAsync("config.json")));
             await client.StartAsync();
 
-            var list = await client.GetClassListAsync("x");
+            var list = await client.GetClassListAsync("11447");
             foreach (var entity in list)
             {
-                Console.WriteLine(entity.FirstName);
+                Console.WriteLine($"{entity.FirstName} {entity.LastName}, {entity.StudentEmail}");
             }
         }
     }

@@ -41,12 +41,7 @@ namespace Wizemen.NET
         {
             await _api.Login();
             var data = await _api.Request("/generaldata.asmx/openPortal",
-                new Dictionary<string, string>
-                {
-                    {"portalCode", "WIZPOR6"},
-                    {"schoolName", _credentials.SchoolName}
-                });
-
+                new {portalCode = "WIZPOR6", schoolName = _credentials.SchoolName});
 
             var link =
                 // ReSharper disable once PossibleNullReferenceException
@@ -68,7 +63,7 @@ namespace Wizemen.NET
                 {MeetingType.Zoom, "/classes/student/VirtualClassZoomStudent.aspx/getScheduledMeetings"},
                 {MeetingType.Teams, "/classes/student/VirtualClassTeamsStudent.aspx/getScheduledMeetings"}
             };
-            
+
             var data = await GetDataAsync(linkByPath[meetingType]);
             var meetings = JsonConvert.DeserializeObject<DtoRoot<MeetingDto>>(data)
                            ?? new DtoRoot<MeetingDto>();
@@ -97,16 +92,18 @@ namespace Wizemen.NET
         /// <returns>A list of the students found. Returns an empty list if none were found (invalid classId)</returns>
         public async Task<List<Student>> GetClassListAsync(string classId)
         {
-            await _api.Request("/classes/student/studenthomeold.aspx/setclasssession", 
-                new {class_id = "1144", classname = ""
-            });
+            await _api.Request("/classes/student/studenthomeold.aspx/setclasssession",
+                new
+                {
+                    class_id = classId, classname = ""
+                });
 
             var data = await _api.Request("/classes/faculty/facultyclassroster.aspx/showclasslist",
                 new {menuid = ""});
 
             var students = JsonConvert.DeserializeObject<DtoRoot<Student>>(await data.Content.ReadAsStringAsync())
-                          ?? new DtoRoot<Student>();
-            
+                           ?? new DtoRoot<Student>();
+
             return students.D;
         }
 
@@ -118,17 +115,12 @@ namespace Wizemen.NET
         {
             await RefreshIfNeededAsync();
             const string path = "/classes/student/studentclasscalendar.aspx/getEvents";
-            
-            var response = await _api.Request(path, new Dictionary<string, string>()
-            {
-                {"movdir", "Current"}
-            });
-            
-            // https://psn.wizemen.net/classes/student/VirtualClassTeamsStudent.aspx/getScheduledMeetings
-            
+
+            var response = await _api.Request(path, new {movdir = "Current"});
+
             var data = await response.Content.ReadAsStringAsync();
             var events = JsonConvert.DeserializeObject<DtoRoot<EventDto>>(data)
-                          ?? new DtoRoot<EventDto>();
+                         ?? new DtoRoot<EventDto>();
 
             return events.D.Select(Event.FromDto).ToList();
         }
@@ -137,7 +129,7 @@ namespace Wizemen.NET
 
         private async Task<string> GetDataAsync(string path)
         {
-            var response = await _api.Request(path, new Dictionary<string, string>());
+            var response = await _api.Request(path, new { });
             return await response.Content.ReadAsStringAsync();
         }
 
@@ -148,6 +140,7 @@ namespace Wizemen.NET
                 await RefreshAsync();
             }
         }
+
         #endregion
     }
 }
