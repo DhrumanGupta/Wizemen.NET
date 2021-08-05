@@ -20,7 +20,7 @@ namespace Wizemen.NET
         private readonly CookieContainer _cookies = new();
 
         private readonly HttpClient _client;
-        
+
         private readonly Credentials _credentials;
         private readonly string _fullLink;
 
@@ -42,10 +42,10 @@ namespace Wizemen.NET
                 "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.164 Safari/537.36");
             _client.DefaultRequestHeaders.Add("X-Requested-With", "XMLHttpRequest");
         }
-        
+
 #nullable enable
         internal async Task<HttpResponseMessage> Request(string path,
-            object? content = null, HttpMethod? method = null, bool ignoreContent =false)
+            object? content = null, HttpMethod? method = null, bool ignoreContent = false)
         {
             method ??= HttpMethod.Post;
             var data = new StringContent(JsonConvert.SerializeObject(content), Encoding.UTF8, "application/json");
@@ -60,7 +60,7 @@ namespace Wizemen.NET
             {
                 message.Content = data;
             }
-            
+
 
             var request = await _client.SendAsync(message);
             return request;
@@ -77,11 +77,11 @@ namespace Wizemen.NET
             };
 
             var request = await Request("/homecontrollers/login/validateUser",
-                new Dictionary<string, string>
+                new
                 {
-                    {"emailid", _credentials.Email},
-                    {"pwd", _credentials.Password},
-                    {"schoolCode", _credentials.SchoolCode.ToString().ToUpper()}
+                    emailid = _credentials.Email,
+                    pwd = _credentials.Password,
+                    schoolCode = _credentials.SchoolCode.ToString().ToUpper()
                 });
 
             var content = await request.Content.ReadAsStringAsync();
