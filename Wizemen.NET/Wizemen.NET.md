@@ -615,3 +615,9 @@ Login, generate a cookie, and verify the cookie to enable access to the API.
 ##### Parameters
 
 This method has no parameters.
+
+##### Exceptions
+
+| Name | Description |
+| ---- | ----------- |
+| [System.Security.Authentication.InvalidCredentialException](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.Security.Authentication.InvalidCredentialException 'System.Security.Authentication.InvalidCredentialException') | Thrown if the credentials provided were invalid |

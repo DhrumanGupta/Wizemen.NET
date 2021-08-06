@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
+using System.Security.Authentication;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 using Wizemen.NET.Dtos;
@@ -31,6 +32,7 @@ namespace Wizemen.NET
         /// <summary>
         /// Login, generate a cookie, and verify the cookie to enable access to the API.
         /// </summary>
+        /// <exception cref="InvalidCredentialException">Thrown if the credentials provided were invalid</exception>
         public async Task StartAsync()
         {
             _endTime = DateTime.Now.AddHours(1);
@@ -40,6 +42,7 @@ namespace Wizemen.NET
         private async Task RefreshAsync()
         {
             await _api.Login();
+
             var data = await _api.Request("/generaldata.asmx/openPortal",
                 new {portalCode = "WIZPOR6", schoolName = _credentials.SchoolName});
 
