@@ -43,14 +43,13 @@ namespace Wizemen.NET
         {
             await _api.Login();
 
-            var data = await _api.Request("/generaldata.asmx/openPortal",
+            var data = await _api.Request("generaldata.asmx/openPortal",
                 new {portalCode = "WIZPOR6", schoolName = _credentials.SchoolName});
 
             var link =
-                // ReSharper disable once PossibleNullReferenceException
-                JsonConvert.DeserializeObject<dynamic>(await data.Content.ReadAsStringAsync()).d.ToString();
+                JsonConvert.DeserializeObject<dynamic>(await data.Content.ReadAsStringAsync())?.d.ToString();
 
-            await _api.Request(link, null, HttpMethod.Get, true);
+            await _api.Request(link!, null, HttpMethod.Get, true);
         }
 
         /// <summary>
@@ -63,8 +62,8 @@ namespace Wizemen.NET
             await RefreshIfNeededAsync();
             var linkByPath = new Dictionary<MeetingType, string>
             {
-                {MeetingType.Zoom, "/classes/student/VirtualClassZoomStudent.aspx/getScheduledMeetings"},
-                {MeetingType.Teams, "/classes/student/VirtualClassTeamsStudent.aspx/getScheduledMeetings"}
+                {MeetingType.Zoom, "classes/student/VirtualClassZoomStudent.aspx/getScheduledMeetings"},
+                {MeetingType.Teams, "classes/student/VirtualClassTeamsStudent.aspx/getScheduledMeetings"}
             };
 
             var data = await GetDataAsync(linkByPath[meetingType]);
@@ -80,7 +79,7 @@ namespace Wizemen.NET
         public async Task<List<Class>> GetClassesAsync()
         {
             await RefreshIfNeededAsync();
-            const string path = "/classes/student/allclasses.aspx/getClassList";
+            const string path = "classes/student/allclasses.aspx/getClassList";
             var data = await GetDataAsync(path);
             var classes = JsonConvert.DeserializeObject<DtoRoot<ClassDto>>(data)
                           ?? new DtoRoot<ClassDto>();
@@ -95,17 +94,34 @@ namespace Wizemen.NET
         /// <returns>A list of the students found. Returns an empty list if none were found (invalid classId)</returns>
         public async Task<List<Student>> GetClassListAsync(string classId)
         {
-            await _api.Request("/classes/student/studenthomeold.aspx/setclasssession",
+            await RefreshIfNeededAsync();
+            await _api.Request("classes/student/studenthomeold.aspx/setclasssession",
                 new
                 {
                     class_id = classId, classname = ""
                 });
 
-            var data = await _api.Request("/classes/faculty/facultyclassroster.aspx/showclasslist",
+            var data = await _api.Request("classes/faculty/facultyclassroster.aspx/showclasslist",
                 new {menuid = ""});
 
             var students = JsonConvert.DeserializeObject<DtoRoot<Student>>(await data.Content.ReadAsStringAsync())
                            ?? new DtoRoot<Student>();
+
+            return students.D;
+        }
+
+        /// <summary>
+        /// Returns the attendance status for all classes of an authenticated user
+        /// </summary>
+        /// <returns>The attendance list found. Returns null if not found (unauthorized or server error)</returns>
+        public async Task<List<ClassAttendance>> GetAttendanceStatusAsync()
+        {
+            await RefreshIfNeededAsync();
+            var data =
+                await GetDataAsync("classes/student/studentattendance.aspx/getAttendanceStatus");
+            
+            var students = JsonConvert.DeserializeObject<DtoRoot<ClassAttendance>>(data)
+                           ?? new DtoRoot<ClassAttendance>();
 
             return students.D;
         }
@@ -117,7 +133,7 @@ namespace Wizemen.NET
         public async Task<List<Event>> GetEventsAsync()
         {
             await RefreshIfNeededAsync();
-            const string path = "/classes/student/studentclasscalendar.aspx/getEvents";
+            const string path = "classes/student/studentclasscalendar.aspx/getEvents";
 
             var response = await _api.Request(path, new {movdir = "Current"});
 
@@ -127,7 +143,46 @@ namespace Wizemen.NET
 
             return events.D.Select(Event.FromDto).ToList();
         }
+        
+        /// <summary>
+        /// Gets the master attendance (not specific to any subject) for the authenticated user
+        /// </summary>
+        /// <returns>The master attendance object found. Returns null if data was not found</returns>
+        public async Task<MasterAttendance> GetMasterAttendanceAsync()
+        {
+            await RefreshIfNeededAsync();
+            var data = await _api.RequestHtml("launchpadnew");
+            const string presentFilter = "Present:&nbsp;";
+            const string absentFilter = "Absent:&nbsp;";
+            const string imperfectFilter = "Imperfect:&nbsp;";
 
+            var presentString =
+                data.Substring(
+                    data.IndexOf(presentFilter, StringComparison.InvariantCultureIgnoreCase) + presentFilter.Length, 7);
+            var presentData = presentString.Split('<')[0].Split('/');
+
+            if (!int.TryParse(presentData.Last(), out int totalDays)) return null;
+            if (!int.TryParse(presentData[0], out int presentDays)) return null;
+
+            var absentData =
+                data.Substring(
+                        data.IndexOf(absentFilter, StringComparison.InvariantCultureIgnoreCase) + absentFilter.Length,
+                        3)
+                    .Split('/')[0];
+
+            if (!int.TryParse(absentData, out int absentDays)) return null;
+
+            var imperfectData =
+                data.Substring(
+                        data.IndexOf(imperfectFilter, StringComparison.InvariantCultureIgnoreCase) + imperfectFilter.Length,
+                        3)
+                    .Split('/')[0];
+
+            if (!int.TryParse(imperfectData, out int imperfectDays)) return null;
+            
+            return new MasterAttendance{TotalDays = totalDays,  Absent = absentDays, Imperfect = imperfectDays, Present = presentDays};
+        }
+        
         #region Helpers
 
         private async Task<string> GetDataAsync(string path)

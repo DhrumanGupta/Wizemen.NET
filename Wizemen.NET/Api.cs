@@ -22,7 +22,7 @@ namespace Wizemen.NET
         private readonly HttpClient _client;
 
         private readonly Credentials _credentials;
-        private readonly string _fullLink;
+        private readonly string _domainLink;
 
         internal Api(Credentials credentials)
         {
@@ -30,17 +30,9 @@ namespace Wizemen.NET
             _client = new HttpClient(handler);
 
             _credentials = credentials;
-            _fullLink = $"{credentials.SchoolCode.ToString().ToLower()}.wizemen.net";
+            _domainLink = $"{credentials.SchoolCode.ToString().ToLower()}.wizemen.net";
 
-            var link = $"https://{_fullLink}";
-            _client.BaseAddress = new Uri(link);
-            _client.DefaultRequestHeaders.Add("Accept", "application/json, text/javascript, */*; q=0.01");
-            _client.DefaultRequestHeaders.Add("Accept-Encoding", "gzip, deflate, br");
-            _client.DefaultRequestHeaders.Add("Host", _fullLink);
-            _client.DefaultRequestHeaders.Add("Origin", link);
-            _client.DefaultRequestHeaders.Add("User-Agent",
-                "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.164 Safari/537.36");
-            _client.DefaultRequestHeaders.Add("X-Requested-With", "XMLHttpRequest");
+            _client.BaseAddress = new Uri($"https://{_domainLink}");
         }
 
 #nullable enable
@@ -53,16 +45,34 @@ namespace Wizemen.NET
             var message = new HttpRequestMessage
             {
                 Method = method,
-                RequestUri = new Uri($"{_client.BaseAddress}{path}")
+                RequestUri = new Uri($"{_client.BaseAddress}{path}"),
+                Headers =
+                {
+                    {"Accept", "application/json, text/javascript, */*; q=0.01"},
+                    {"Accept-Encoding", "gzip, deflate, br"},
+                    {"Host", _domainLink},
+                    {"Origin", _client.BaseAddress.ToString()},
+                    {
+                        "User-Agent",
+                        "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.164 Safari/537.36"
+                    },
+                    {"X-Requested-With", "XMLHttpRequest"}
+                }
+                
             };
 
             if (!ignoreContent)
             {
                 message.Content = data;
             }
-
-
+            
             var request = await _client.SendAsync(message);
+            return request;
+        }
+
+        internal async Task<string> RequestHtml(string path)
+        {
+            var request = await _client.GetStringAsync($"{_client.BaseAddress}{path}");
             return request;
         }
 
@@ -76,7 +86,7 @@ namespace Wizemen.NET
                 "This Email ID is not registered with Wizemen."
             };
 
-            var request = await Request("/homecontrollers/login/validateUser",
+            var request = await Request("homecontrollers/login/validateUser",
                 new
                 {
                     emailid = _credentials.Email,

@@ -18,12 +18,7 @@ namespace Testing
         {
             var client = new WizemenClient(JsonConvert.DeserializeObject<Credentials>(await File.ReadAllTextAsync("config.json")));
             await client.StartAsync();
-
-            var list = await client.GetClassListAsync("11447");
-            foreach (var entity in list)
-            {
-                Console.WriteLine($"{entity.FirstName} {entity.LastName}, {entity.StudentEmail}");
-            }
+            Console.WriteLine(JsonConvert.SerializeObject(await client.GetAttendanceStatusAsync(), Formatting.Indented));
         }
     }
 }
