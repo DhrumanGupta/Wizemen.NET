@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Xml;
-using Wizemen.NET.Dtos;
 
 namespace Wizemen.NET.Models
 {
@@ -43,19 +41,5 @@ namespace Wizemen.NET.Models
         /// The color code the event is displayed in
         /// </summary>
         public string ColorCode { get; set; }
-
-        internal static Event FromDto(EventDto dto)
-        {
-            return new()
-            {
-                Type = dto.EventType,
-                Id = dto.EventId,
-                Title = dto.EventTitle,
-                Data = dto.EventData,
-                StartDate = dto.EventDate,
-                EndDate = dto.EndDate,
-                ColorCode = dto.ColorCode
-            };
-        }
     }
 }

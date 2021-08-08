@@ -13,9 +13,28 @@
   - [TeacherId](#P-Wizemen-NET-Models-Class-TeacherId 'Wizemen.NET.Models.Class.TeacherId')
   - [TeacherName](#P-Wizemen-NET-Models-Class-TeacherName 'Wizemen.NET.Models.Class.TeacherName')
 - [ClassAttendance](#T-Wizemen-NET-Models-ClassAttendance 'Wizemen.NET.Models.ClassAttendance')
+  - [AbsentExcused](#P-Wizemen-NET-Models-ClassAttendance-AbsentExcused 'Wizemen.NET.Models.ClassAttendance.AbsentExcused')
+  - [AbsentUnexcused](#P-Wizemen-NET-Models-ClassAttendance-AbsentUnexcused 'Wizemen.NET.Models.ClassAttendance.AbsentUnexcused')
+  - [Als](#P-Wizemen-NET-Models-ClassAttendance-Als 'Wizemen.NET.Models.ClassAttendance.Als')
+  - [EarlyDismissal](#P-Wizemen-NET-Models-ClassAttendance-EarlyDismissal 'Wizemen.NET.Models.ClassAttendance.EarlyDismissal')
+  - [ExamLeave](#P-Wizemen-NET-Models-ClassAttendance-ExamLeave 'Wizemen.NET.Models.ClassAttendance.ExamLeave')
+  - [Exeat](#P-Wizemen-NET-Models-ClassAttendance-Exeat 'Wizemen.NET.Models.ClassAttendance.Exeat')
+  - [LateExcused](#P-Wizemen-NET-Models-ClassAttendance-LateExcused 'Wizemen.NET.Models.ClassAttendance.LateExcused')
+  - [LateUnexcused](#P-Wizemen-NET-Models-ClassAttendance-LateUnexcused 'Wizemen.NET.Models.ClassAttendance.LateUnexcused')
+  - [NotExpected](#P-Wizemen-NET-Models-ClassAttendance-NotExpected 'Wizemen.NET.Models.ClassAttendance.NotExpected')
+  - [Present](#P-Wizemen-NET-Models-ClassAttendance-Present 'Wizemen.NET.Models.ClassAttendance.Present')
+  - [PresentInClass](#P-Wizemen-NET-Models-ClassAttendance-PresentInClass 'Wizemen.NET.Models.ClassAttendance.PresentInClass')
+  - [PresentOnline](#P-Wizemen-NET-Models-ClassAttendance-PresentOnline 'Wizemen.NET.Models.ClassAttendance.PresentOnline')
+  - [RepresentingSchool](#P-Wizemen-NET-Models-ClassAttendance-RepresentingSchool 'Wizemen.NET.Models.ClassAttendance.RepresentingSchool')
+  - [SchoolTrip](#P-Wizemen-NET-Models-ClassAttendance-SchoolTrip 'Wizemen.NET.Models.ClassAttendance.SchoolTrip')
+  - [SentHome](#P-Wizemen-NET-Models-ClassAttendance-SentHome 'Wizemen.NET.Models.ClassAttendance.SentHome')
+  - [StudentIllness](#P-Wizemen-NET-Models-ClassAttendance-StudentIllness 'Wizemen.NET.Models.ClassAttendance.StudentIllness')
   - [Subject](#P-Wizemen-NET-Models-ClassAttendance-Subject 'Wizemen.NET.Models.ClassAttendance.Subject')
+  - [Suspended](#P-Wizemen-NET-Models-ClassAttendance-Suspended 'Wizemen.NET.Models.ClassAttendance.Suspended')
+  - [TeacherFullName](#P-Wizemen-NET-Models-ClassAttendance-TeacherFullName 'Wizemen.NET.Models.ClassAttendance.TeacherFullName')
+  - [TotalClasses](#P-Wizemen-NET-Models-ClassAttendance-TotalClasses 'Wizemen.NET.Models.ClassAttendance.TotalClasses')
 - [Credentials](#T-Wizemen-NET-Models-Credentials 'Wizemen.NET.Models.Credentials')
-  - [#ctor(email,password,schoolCode)](#M-Wizemen-NET-Models-Credentials-#ctor-System-String,System-String,Wizemen-NET-SchoolCode- 'Wizemen.NET.Models.Credentials.#ctor(System.String,System.String,Wizemen.NET.SchoolCode)')
+  - [#ctor(email,password,schoolCode)](#M-Wizemen-NET-Models-Credentials-#ctor-System-String,System-String,Wizemen-NET-Models-SchoolCode- 'Wizemen.NET.Models.Credentials.#ctor(System.String,System.String,Wizemen.NET.Models.SchoolCode)')
   - [Email](#P-Wizemen-NET-Models-Credentials-Email 'Wizemen.NET.Models.Credentials.Email')
   - [Password](#P-Wizemen-NET-Models-Credentials-Password 'Wizemen.NET.Models.Credentials.Password')
   - [SchoolCode](#P-Wizemen-NET-Models-Credentials-SchoolCode 'Wizemen.NET.Models.Credentials.SchoolCode')
@@ -45,10 +64,10 @@
 - [MeetingType](#T-Wizemen-NET-Models-MeetingType 'Wizemen.NET.Models.MeetingType')
   - [Teams](#F-Wizemen-NET-Models-MeetingType-Teams 'Wizemen.NET.Models.MeetingType.Teams')
   - [Zoom](#F-Wizemen-NET-Models-MeetingType-Zoom 'Wizemen.NET.Models.MeetingType.Zoom')
-- [SchoolCode](#T-Wizemen-NET-SchoolCode 'Wizemen.NET.SchoolCode')
-  - [Psg](#F-Wizemen-NET-SchoolCode-Psg 'Wizemen.NET.SchoolCode.Psg')
-  - [Psn](#F-Wizemen-NET-SchoolCode-Psn 'Wizemen.NET.SchoolCode.Psn')
-  - [Pws](#F-Wizemen-NET-SchoolCode-Pws 'Wizemen.NET.SchoolCode.Pws')
+- [SchoolCode](#T-Wizemen-NET-Models-SchoolCode 'Wizemen.NET.Models.SchoolCode')
+  - [Psg](#F-Wizemen-NET-Models-SchoolCode-Psg 'Wizemen.NET.Models.SchoolCode.Psg')
+  - [Psn](#F-Wizemen-NET-Models-SchoolCode-Psn 'Wizemen.NET.Models.SchoolCode.Psn')
+  - [Pws](#F-Wizemen-NET-Models-SchoolCode-Pws 'Wizemen.NET.Models.SchoolCode.Pws')
 - [Student](#T-Wizemen-NET-Models-Student 'Wizemen.NET.Models.Student')
   - [Birthday](#P-Wizemen-NET-Models-Student-Birthday 'Wizemen.NET.Models.Student.Birthday')
   - [FirstName](#P-Wizemen-NET-Models-Student-FirstName 'Wizemen.NET.Models.Student.FirstName')
@@ -68,15 +87,14 @@
   - [SchoolLevel](#P-Wizemen-NET-Models-Student-SchoolLevel 'Wizemen.NET.Models.Student.SchoolLevel')
   - [StudentEmail](#P-Wizemen-NET-Models-Student-StudentEmail 'Wizemen.NET.Models.Student.StudentEmail')
   - [UserId](#P-Wizemen-NET-Models-Student-UserId 'Wizemen.NET.Models.Student.UserId')
-- [WizemenClient](#T-Wizemen-NET-WizemenClient 'Wizemen.NET.WizemenClient')
-  - [#ctor(credentials)](#M-Wizemen-NET-WizemenClient-#ctor-Wizemen-NET-Models-Credentials- 'Wizemen.NET.WizemenClient.#ctor(Wizemen.NET.Models.Credentials)')
-  - [GetAttendanceStatusAsync()](#M-Wizemen-NET-WizemenClient-GetAttendanceStatusAsync 'Wizemen.NET.WizemenClient.GetAttendanceStatusAsync')
-  - [GetClassListAsync(classId)](#M-Wizemen-NET-WizemenClient-GetClassListAsync-System-String- 'Wizemen.NET.WizemenClient.GetClassListAsync(System.String)')
-  - [GetClassesAsync()](#M-Wizemen-NET-WizemenClient-GetClassesAsync 'Wizemen.NET.WizemenClient.GetClassesAsync')
-  - [GetEventsAsync()](#M-Wizemen-NET-WizemenClient-GetEventsAsync 'Wizemen.NET.WizemenClient.GetEventsAsync')
-  - [GetMasterAttendanceAsync()](#M-Wizemen-NET-WizemenClient-GetMasterAttendanceAsync 'Wizemen.NET.WizemenClient.GetMasterAttendanceAsync')
-  - [GetMeetingsAsync(meetingType)](#M-Wizemen-NET-WizemenClient-GetMeetingsAsync-Wizemen-NET-Models-MeetingType- 'Wizemen.NET.WizemenClient.GetMeetingsAsync(Wizemen.NET.Models.MeetingType)')
-  - [StartAsync()](#M-Wizemen-NET-WizemenClient-StartAsync 'Wizemen.NET.WizemenClient.StartAsync')
+- [WizemenClient](#T-Wizemen-NET-Clients-WizemenClient 'Wizemen.NET.Clients.WizemenClient')
+  - [GetAttendanceStatusAsync()](#M-Wizemen-NET-Clients-WizemenClient-GetAttendanceStatusAsync 'Wizemen.NET.Clients.WizemenClient.GetAttendanceStatusAsync')
+  - [GetClassListAsync(classId)](#M-Wizemen-NET-Clients-WizemenClient-GetClassListAsync-System-Int32- 'Wizemen.NET.Clients.WizemenClient.GetClassListAsync(System.Int32)')
+  - [GetClassesAsync()](#M-Wizemen-NET-Clients-WizemenClient-GetClassesAsync 'Wizemen.NET.Clients.WizemenClient.GetClassesAsync')
+  - [GetEventsAsync()](#M-Wizemen-NET-Clients-WizemenClient-GetEventsAsync 'Wizemen.NET.Clients.WizemenClient.GetEventsAsync')
+  - [GetMasterAttendanceAsync()](#M-Wizemen-NET-Clients-WizemenClient-GetMasterAttendanceAsync 'Wizemen.NET.Clients.WizemenClient.GetMasterAttendanceAsync')
+  - [GetMeetingsAsync(meetingType)](#M-Wizemen-NET-Clients-WizemenClient-GetMeetingsAsync-Wizemen-NET-Models-MeetingType- 'Wizemen.NET.Clients.WizemenClient.GetMeetingsAsync(Wizemen.NET.Models.MeetingType)')
+  - [NewClientAsync(credentials)](#M-Wizemen-NET-Clients-WizemenClient-NewClientAsync-Wizemen-NET-Models-Credentials- 'Wizemen.NET.Clients.WizemenClient.NewClientAsync(Wizemen.NET.Models.Credentials)')
 
 <a name='T-Wizemen-NET-Models-Class'></a>
 ## Class `type`
@@ -156,12 +174,145 @@ Wizemen.NET.Models
 
 Attendance data for a class
 
+<a name='P-Wizemen-NET-Models-ClassAttendance-AbsentExcused'></a>
+### AbsentExcused `property`
+
+##### Summary
+
+No. of classes the student was marked as Absent Excused
+
+<a name='P-Wizemen-NET-Models-ClassAttendance-AbsentUnexcused'></a>
+### AbsentUnexcused `property`
+
+##### Summary
+
+No. of classes the student was marked as Absent Unexcused
+
+<a name='P-Wizemen-NET-Models-ClassAttendance-Als'></a>
+### Als `property`
+
+##### Summary
+
+No. of classes the student was marked for ALS
+
+<a name='P-Wizemen-NET-Models-ClassAttendance-EarlyDismissal'></a>
+### EarlyDismissal `property`
+
+##### Summary
+
+No. of classes the student was marked for Early Dismissal
+
+<a name='P-Wizemen-NET-Models-ClassAttendance-ExamLeave'></a>
+### ExamLeave `property`
+
+##### Summary
+
+No. of classes the student was marked for Exam Leave
+
+<a name='P-Wizemen-NET-Models-ClassAttendance-Exeat'></a>
+### Exeat `property`
+
+##### Summary
+
+No. of classes the student was marked Exeat
+
+<a name='P-Wizemen-NET-Models-ClassAttendance-LateExcused'></a>
+### LateExcused `property`
+
+##### Summary
+
+No. of classes the student was marked Late Excused
+
+<a name='P-Wizemen-NET-Models-ClassAttendance-LateUnexcused'></a>
+### LateUnexcused `property`
+
+##### Summary
+
+No. of classes the student was marked Late Unexcused
+
+<a name='P-Wizemen-NET-Models-ClassAttendance-NotExpected'></a>
+### NotExpected `property`
+
+##### Summary
+
+No. of classes the student was marked Not Expected
+
+<a name='P-Wizemen-NET-Models-ClassAttendance-Present'></a>
+### Present `property`
+
+##### Summary
+
+No. of classes the student was marked present for.
+
+<a name='P-Wizemen-NET-Models-ClassAttendance-PresentInClass'></a>
+### PresentInClass `property`
+
+##### Summary
+
+No. of classes the student was marked as Present In Class
+
+<a name='P-Wizemen-NET-Models-ClassAttendance-PresentOnline'></a>
+### PresentOnline `property`
+
+##### Summary
+
+No. of classes the student was marked as Present Online
+
+<a name='P-Wizemen-NET-Models-ClassAttendance-RepresentingSchool'></a>
+### RepresentingSchool `property`
+
+##### Summary
+
+No. of classes the student was marked for Representing School
+
+<a name='P-Wizemen-NET-Models-ClassAttendance-SchoolTrip'></a>
+### SchoolTrip `property`
+
+##### Summary
+
+No. of classes the student was marked for School Tri[
+
+<a name='P-Wizemen-NET-Models-ClassAttendance-SentHome'></a>
+### SentHome `property`
+
+##### Summary
+
+No. of classes the student was marked absent for being Sent Home
+
+<a name='P-Wizemen-NET-Models-ClassAttendance-StudentIllness'></a>
+### StudentIllness `property`
+
+##### Summary
+
+No. of classes the student was marked absent for Illness
+
 <a name='P-Wizemen-NET-Models-ClassAttendance-Subject'></a>
 ### Subject `property`
 
 ##### Summary
 
 The subject the attendance is regarding
+
+<a name='P-Wizemen-NET-Models-ClassAttendance-Suspended'></a>
+### Suspended `property`
+
+##### Summary
+
+No. of classes the student was marked Suspended
+
+<a name='P-Wizemen-NET-Models-ClassAttendance-TeacherFullName'></a>
+### TeacherFullName `property`
+
+##### Summary
+
+The subject's teacher's full name
+
+<a name='P-Wizemen-NET-Models-ClassAttendance-TotalClasses'></a>
+### TotalClasses `property`
+
+##### Summary
+
+Total No. of classes conducted for the subject
 
 <a name='T-Wizemen-NET-Models-Credentials'></a>
 ## Credentials `type`
@@ -174,7 +325,7 @@ Wizemen.NET.Models
 
 Credentials object used to authenticate user
 
-<a name='M-Wizemen-NET-Models-Credentials-#ctor-System-String,System-String,Wizemen-NET-SchoolCode-'></a>
+<a name='M-Wizemen-NET-Models-Credentials-#ctor-System-String,System-String,Wizemen-NET-Models-SchoolCode-'></a>
 ### #ctor(email,password,schoolCode) `constructor`
 
 ##### Summary
@@ -187,7 +338,7 @@ Creates the credentials object
 | ---- | ---- | ----------- |
 | email | [System.String](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.String 'System.String') | The user's Wizemen Email Address |
 | password | [System.String](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.String 'System.String') | The user's Wizemen Password |
-| schoolCode | [Wizemen.NET.SchoolCode](#T-Wizemen-NET-SchoolCode 'Wizemen.NET.SchoolCode') | The user's SchoolCode |
+| schoolCode | [Wizemen.NET.Models.SchoolCode](#T-Wizemen-NET-Models-SchoolCode 'Wizemen.NET.Models.SchoolCode') | The user's SchoolCode |
 
 ##### Exceptions
 
@@ -221,7 +372,7 @@ The user's Wizemen School Code
 
 ##### Summary
 
-The school's Name (Auto generated depending on [SchoolCode](#P-Wizemen-NET-Models-Credentials-SchoolCode 'Wizemen.NET.Models.Credentials.SchoolCode'))
+The school's Name (Auto generated depending on the [SchoolCode](#P-Wizemen-NET-Models-Credentials-SchoolCode 'Wizemen.NET.Models.Credentials.SchoolCode'))
 
 <a name='T-Wizemen-NET-Models-Event'></a>
 ## Event `type`
@@ -414,32 +565,32 @@ Teams meetings
 
 Zoom meetings
 
-<a name='T-Wizemen-NET-SchoolCode'></a>
+<a name='T-Wizemen-NET-Models-SchoolCode'></a>
 ## SchoolCode `type`
 
 ##### Namespace
 
-Wizemen.NET
+Wizemen.NET.Models
 
 ##### Summary
 
 The school code of the user's school
 
-<a name='F-Wizemen-NET-SchoolCode-Psg'></a>
+<a name='F-Wizemen-NET-Models-SchoolCode-Psg'></a>
 ### Psg `constants`
 
 ##### Summary
 
 Pathways School Gurgaon
 
-<a name='F-Wizemen-NET-SchoolCode-Psn'></a>
+<a name='F-Wizemen-NET-Models-SchoolCode-Psn'></a>
 ### Psn `constants`
 
 ##### Summary
 
 Pathways School Noida
 
-<a name='F-Wizemen-NET-SchoolCode-Pws'></a>
+<a name='F-Wizemen-NET-Models-SchoolCode-Pws'></a>
 ### Pws `constants`
 
 ##### Summary
@@ -583,31 +734,18 @@ The student's school email
 
 The user Id of the student
 
-<a name='T-Wizemen-NET-WizemenClient'></a>
+<a name='T-Wizemen-NET-Clients-WizemenClient'></a>
 ## WizemenClient `type`
 
 ##### Namespace
 
-Wizemen.NET
+Wizemen.NET.Clients
 
 ##### Summary
 
 Client class used to interact with the API.
 
-<a name='M-Wizemen-NET-WizemenClient-#ctor-Wizemen-NET-Models-Credentials-'></a>
-### #ctor(credentials) `constructor`
-
-##### Summary
-
-Creates a client used to interact with the API
-
-##### Parameters
-
-| Name | Type | Description |
-| ---- | ---- | ----------- |
-| credentials | [Wizemen.NET.Models.Credentials](#T-Wizemen-NET-Models-Credentials 'Wizemen.NET.Models.Credentials') | The credentials object with the user's credentials |
-
-<a name='M-Wizemen-NET-WizemenClient-GetAttendanceStatusAsync'></a>
+<a name='M-Wizemen-NET-Clients-WizemenClient-GetAttendanceStatusAsync'></a>
 ### GetAttendanceStatusAsync() `method`
 
 ##### Summary
@@ -622,7 +760,7 @@ The attendance list found. Returns null if not found (unauthorized or server err
 
 This method has no parameters.
 
-<a name='M-Wizemen-NET-WizemenClient-GetClassListAsync-System-String-'></a>
+<a name='M-Wizemen-NET-Clients-WizemenClient-GetClassListAsync-System-Int32-'></a>
 ### GetClassListAsync(classId) `method`
 
 ##### Summary
@@ -637,9 +775,9 @@ A list of the students found. Returns an empty list if none were found (invalid 
 
 | Name | Type | Description |
 | ---- | ---- | ----------- |
-| classId | [System.String](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.String 'System.String') | The classId to get the students in |
+| classId | [System.Int32](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.Int32 'System.Int32') | The classId to get the students in |
 
-<a name='M-Wizemen-NET-WizemenClient-GetClassesAsync'></a>
+<a name='M-Wizemen-NET-Clients-WizemenClient-GetClassesAsync'></a>
 ### GetClassesAsync() `method`
 
 ##### Summary
@@ -654,7 +792,7 @@ The classes found. Returns an empty list if none were found
 
 This method has no parameters.
 
-<a name='M-Wizemen-NET-WizemenClient-GetEventsAsync'></a>
+<a name='M-Wizemen-NET-Clients-WizemenClient-GetEventsAsync'></a>
 ### GetEventsAsync() `method`
 
 ##### Summary
@@ -669,7 +807,7 @@ The events found. Returns an empty list if none were found
 
 This method has no parameters.
 
-<a name='M-Wizemen-NET-WizemenClient-GetMasterAttendanceAsync'></a>
+<a name='M-Wizemen-NET-Clients-WizemenClient-GetMasterAttendanceAsync'></a>
 ### GetMasterAttendanceAsync() `method`
 
 ##### Summary
@@ -684,7 +822,7 @@ The master attendance object found. Returns null if data was not found
 
 This method has no parameters.
 
-<a name='M-Wizemen-NET-WizemenClient-GetMeetingsAsync-Wizemen-NET-Models-MeetingType-'></a>
+<a name='M-Wizemen-NET-Clients-WizemenClient-GetMeetingsAsync-Wizemen-NET-Models-MeetingType-'></a>
 ### GetMeetingsAsync(meetingType) `method`
 
 ##### Summary
@@ -701,16 +839,18 @@ The meetings found. Returns an empty list if none were found
 | ---- | ---- | ----------- |
 | meetingType | [Wizemen.NET.Models.MeetingType](#T-Wizemen-NET-Models-MeetingType 'Wizemen.NET.Models.MeetingType') | The type of meeting to get |
 
-<a name='M-Wizemen-NET-WizemenClient-StartAsync'></a>
-### StartAsync() `method`
+<a name='M-Wizemen-NET-Clients-WizemenClient-NewClientAsync-Wizemen-NET-Models-Credentials-'></a>
+### NewClientAsync(credentials) `method`
 
 ##### Summary
 
-Login, generate a cookie, and verify the cookie to enable access to the API.
+Creates a client used to interact with the API asynchronously
 
 ##### Parameters
 
-This method has no parameters.
+| Name | Type | Description |
+| ---- | ---- | ----------- |
+| credentials | [Wizemen.NET.Models.Credentials](#T-Wizemen-NET-Models-Credentials 'Wizemen.NET.Models.Credentials') | The credentials object with the user's credentials |
 
 ##### Exceptions
 

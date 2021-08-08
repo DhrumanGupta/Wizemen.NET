@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Text.RegularExpressions;
 
 namespace Wizemen.NET.Models
@@ -42,6 +43,7 @@ namespace Wizemen.NET.Models
         /// <summary>
         /// The user's Wizemen Email
         /// </summary>
+        [RegularExpression(@"\A(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?)\Z")]
         public string Email { get; }
         
         /// <summary>
@@ -55,7 +57,7 @@ namespace Wizemen.NET.Models
         public SchoolCode SchoolCode { get; }
 
         /// <summary>
-        /// The school's Name (Auto generated depending on <see cref="SchoolCode"/>)
+        /// The school's Name (Auto generated depending on the <see cref="SchoolCode"/>)
         /// </summary>
         public string SchoolName { get; }
     }

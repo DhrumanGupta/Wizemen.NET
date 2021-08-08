@@ -1,6 +1,4 @@
-﻿using Newtonsoft.Json;
-
-namespace Wizemen.NET.Models
+﻿namespace Wizemen.NET.Models
 {
     /// <summary>
     /// Attendance data for a class
@@ -10,44 +8,105 @@ namespace Wizemen.NET.Models
         /// <summary>
         /// The subject the attendance is regarding
         /// </summary>
-        [JsonProperty("subject")] public string Subject { get; set; }
+        public string Subject { get; set; }
+        
+        /// <summary>
+        /// The subject's teacher's full name
+        /// </summary>
+        public string TeacherFullName { get; set; }
+        
+        /// <summary>
+        /// Total No. of classes conducted for the subject
+        /// </summary>
+        public int TotalClasses { get; set; }
+        
+        /// <summary>
+        /// No. of classes the student was marked present for.
+        /// <remarks>Teachers usually mark students <see cref="PresentInClass">Present in Class</see> or <see cref="PresentOnline">Present Online</see></remarks>
+        /// </summary>
+        public int Present { get; set; }
+        
+        /// <summary>
+        /// No. of classes the student was marked as Present In Class
+        /// </summary>
+        public int PresentInClass { get; set; }
 
-        [JsonProperty("class_period")] public string ClassPeriod { get; set; }
+        /// <summary>
+        /// No. of classes the student was marked as Present Online
+        /// </summary>
+        public int PresentOnline { get; set; }
 
-        [JsonProperty("teacher_full_name")] public string TeacherFullName { get; set; }
+        /// <summary>
+        /// No. of classes the student was marked as Absent Unexcused
+        /// </summary>
+        public int AbsentUnexcused { get; set; }
 
-        [JsonProperty("Present")] public string Present { get; set; }
+        /// <summary>
+        /// No. of classes the student was marked as Absent Excused
+        /// </summary>
+        public int AbsentExcused { get; set; }
 
-        [JsonProperty("Present_inclass")] public string PresentInclass { get; set; }
+        /// <summary>
+        /// No. of classes the student was marked absent for Illness
+        /// </summary>
+        public int StudentIllness { get; set; }
 
-        [JsonProperty("Present_online")] public string PresentOnline { get; set; }
+        /// <summary>
+        /// No. of classes the student was marked absent for being Sent Home
+        /// </summary>
+        public int SentHome { get; set; }
 
-        [JsonProperty("Absent_Unexcused")] public string AbsentUnexcused { get; set; }
+        /// <summary>
+        /// No. of classes the student was marked Exeat
+        /// </summary>
+        public int Exeat { get; set; }
 
-        [JsonProperty("Absent_Excused")] public string AbsentExcused { get; set; }
+        /// <summary>
+        /// No. of classes the student was marked Late Unexcused
+        /// </summary>
+        public int LateUnexcused { get; set; }
 
-        [JsonProperty("Student_Illness")] public string StudentIllness { get; set; }
+        /// <summary>
+        /// No. of classes the student was marked Late Excused
+        /// </summary>
+        public int LateExcused { get; set; }
 
-        [JsonProperty("Sent_Home")] public string SentHome { get; set; }
+        /// <summary>
+        /// No. of classes the student was marked Not Expected
+        /// </summary>
+        public int NotExpected { get; set; }
 
-        [JsonProperty("Exeat")] public string Exeat { get; set; }
+        /// <summary>
+        /// No. of classes the student was marked for Early Dismissal
+        /// </summary>
+        public int EarlyDismissal { get; set; }
 
-        [JsonProperty("Late_Unexcused")] public string LateUnexcused { get; set; }
 
-        [JsonProperty("Late_Excused")] public string LateExcused { get; set; }
+        /// <summary>
+        /// No. of classes the student was marked for School Tri[
+        /// </summary>
+        public int SchoolTrip { get; set; }
 
-        [JsonProperty("Not_Expected")] public string NotExpected { get; set; }
 
-        [JsonProperty("Early_Dismissal")] public string EarlyDismissal { get; set; }
+        /// <summary>
+        /// No. of classes the student was marked for Representing School
+        /// </summary>
+        public int RepresentingSchool { get; set; }
 
-        [JsonProperty("School_Trip")] public string SchoolTrip { get; set; }
+        /// <summary>
+        /// No. of classes the student was marked for Exam Leave
+        /// </summary>
+        public int ExamLeave { get; set; }
 
-        [JsonProperty("Representing_School")] public string RepresentingSchool { get; set; }
+        /// <summary>
+        /// No. of classes the student was marked for ALS
+        /// </summary>
+        public int Als { get; set; }
 
-        [JsonProperty("Exam_Leave")] public string ExamLeave { get; set; }
 
-        [JsonProperty("ALS")] public string ALS { get; set; }
-
-        [JsonProperty("Suspended")] public string Suspended { get; set; }
+        /// <summary>
+        /// No. of classes the student was marked Suspended
+        /// </summary>
+        public int Suspended { get; set; }
     }
 }

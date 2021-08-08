@@ -1,5 +1,6 @@
 ﻿using System;
 using Newtonsoft.Json;
+using Wizemen.NET.Models;
 
 namespace Wizemen.NET.Dtos
 {
@@ -38,5 +39,20 @@ namespace Wizemen.NET.Dtos
         [JsonProperty("student_id")] public object StudentId { get; set; }
 
         [JsonProperty("color_code")] public string ColorCode { get; set; }
+
+
+        internal Event ToObject()
+        {
+            return new()
+            {
+                Type = EventType,
+                Id = EventId,
+                Title = EventTitle,
+                Data = EventData,
+                StartDate = EventDate,
+                EndDate = EndDate,
+                ColorCode = ColorCode
+            };
+        }
     }
 }

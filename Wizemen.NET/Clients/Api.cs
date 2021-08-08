@@ -1,19 +1,14 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
-using System.Net.Http.Headers;
-using System.Runtime.InteropServices;
 using System.Security.Authentication;
 using System.Text;
 using System.Threading.Tasks;
-using System.Xml;
 using Newtonsoft.Json;
 using Wizemen.NET.Models;
 
-namespace Wizemen.NET
+namespace Wizemen.NET.Clients
 {
     internal class Api
     {
@@ -91,7 +86,8 @@ namespace Wizemen.NET
                 {
                     emailid = _credentials.Email,
                     pwd = _credentials.Password,
-                    schoolCode = _credentials.SchoolCode.ToString().ToUpper()
+                    schoolCode = _credentials.SchoolCode.ToString().ToUpper(),
+                    schoolName = _credentials.SchoolName
                 });
 
             var content = await request.Content.ReadAsStringAsync();

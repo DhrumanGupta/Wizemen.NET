@@ -4,6 +4,56 @@
         <name>Wizemen.NET</name>
     </assembly>
     <members>
+        <member name="T:Wizemen.NET.Clients.WizemenClient">
+            <summary>
+            Client class used to interact with the API.
+            </summary>
+        </member>
+        <member name="M:Wizemen.NET.Clients.WizemenClient.NewClientAsync(Wizemen.NET.Models.Credentials)">
+            <summary>
+            Creates a client used to interact with the API asynchronously
+            </summary>
+            <param name="credentials">The credentials object with the user's credentials</param>
+            <exception cref="T:System.Security.Authentication.InvalidCredentialException">Thrown if the credentials provided were invalid</exception>
+        </member>
+        <member name="M:Wizemen.NET.Clients.WizemenClient.GetMeetingsAsync(Wizemen.NET.Models.MeetingType)">
+            <summary>
+            Gets the meetings for the authenticated user
+            </summary>
+            <param name="meetingType">The type of meeting to get</param>
+            <returns>The meetings found. Returns an empty list if none were found</returns>
+        </member>
+        <member name="M:Wizemen.NET.Clients.WizemenClient.GetClassesAsync">
+            <summary>
+            Gets the classes of the authenticated user
+            </summary>
+            <returns>The classes found. Returns an empty list if none were found</returns>
+        </member>
+        <member name="M:Wizemen.NET.Clients.WizemenClient.GetClassListAsync(System.Int32)">
+            <summary>
+            Returns a list of all the students in a class
+            </summary>
+            <param name="classId">The classId to get the students in</param>
+            <returns>A list of the students found. Returns an empty list if none were found (invalid classId)</returns>
+        </member>
+        <member name="M:Wizemen.NET.Clients.WizemenClient.GetAttendanceStatusAsync">
+            <summary>
+            Returns the attendance status for all classes of an authenticated user
+            </summary>
+            <returns>The attendance list found. Returns null if not found (unauthorized or server error)</returns>
+        </member>
+        <member name="M:Wizemen.NET.Clients.WizemenClient.GetEventsAsync">
+            <summary>
+            Gets the events of the authenticated user
+            </summary>
+            <returns>The events found. Returns an empty list if none were found</returns>
+        </member>
+        <member name="M:Wizemen.NET.Clients.WizemenClient.GetMasterAttendanceAsync">
+            <summary>
+            Gets the master attendance (not specific to any subject) for the authenticated user
+            </summary>
+            <returns>The master attendance object found. Returns null if data was not found</returns>
+        </member>
         <member name="T:Wizemen.NET.Models.Class">
             <summary>
             A wizemen class a user is enrolled in
@@ -59,12 +109,108 @@
             The subject the attendance is regarding
             </summary>
         </member>
+        <member name="P:Wizemen.NET.Models.ClassAttendance.TeacherFullName">
+            <summary>
+            The subject's teacher's full name
+            </summary>
+        </member>
+        <member name="P:Wizemen.NET.Models.ClassAttendance.TotalClasses">
+            <summary>
+            Total No. of classes conducted for the subject
+            </summary>
+        </member>
+        <member name="P:Wizemen.NET.Models.ClassAttendance.Present">
+            <summary>
+            No. of classes the student was marked present for.
+            <remarks>Teachers usually mark students <see cref="P:Wizemen.NET.Models.ClassAttendance.PresentInClass">Present in Class</see> or <see cref="P:Wizemen.NET.Models.ClassAttendance.PresentOnline">Present Online</see></remarks>
+            </summary>
+        </member>
+        <member name="P:Wizemen.NET.Models.ClassAttendance.PresentInClass">
+            <summary>
+            No. of classes the student was marked as Present In Class
+            </summary>
+        </member>
+        <member name="P:Wizemen.NET.Models.ClassAttendance.PresentOnline">
+            <summary>
+            No. of classes the student was marked as Present Online
+            </summary>
+        </member>
+        <member name="P:Wizemen.NET.Models.ClassAttendance.AbsentUnexcused">
+            <summary>
+            No. of classes the student was marked as Absent Unexcused
+            </summary>
+        </member>
+        <member name="P:Wizemen.NET.Models.ClassAttendance.AbsentExcused">
+            <summary>
+            No. of classes the student was marked as Absent Excused
+            </summary>
+        </member>
+        <member name="P:Wizemen.NET.Models.ClassAttendance.StudentIllness">
+            <summary>
+            No. of classes the student was marked absent for Illness
+            </summary>
+        </member>
+        <member name="P:Wizemen.NET.Models.ClassAttendance.SentHome">
+            <summary>
+            No. of classes the student was marked absent for being Sent Home
+            </summary>
+        </member>
+        <member name="P:Wizemen.NET.Models.ClassAttendance.Exeat">
+            <summary>
+            No. of classes the student was marked Exeat
+            </summary>
+        </member>
+        <member name="P:Wizemen.NET.Models.ClassAttendance.LateUnexcused">
+            <summary>
+            No. of classes the student was marked Late Unexcused
+            </summary>
+        </member>
+        <member name="P:Wizemen.NET.Models.ClassAttendance.LateExcused">
+            <summary>
+            No. of classes the student was marked Late Excused
+            </summary>
+        </member>
+        <member name="P:Wizemen.NET.Models.ClassAttendance.NotExpected">
+            <summary>
+            No. of classes the student was marked Not Expected
+            </summary>
+        </member>
+        <member name="P:Wizemen.NET.Models.ClassAttendance.EarlyDismissal">
+            <summary>
+            No. of classes the student was marked for Early Dismissal
+            </summary>
+        </member>
+        <member name="P:Wizemen.NET.Models.ClassAttendance.SchoolTrip">
+            <summary>
+            No. of classes the student was marked for School Tri[
+            </summary>
+        </member>
+        <member name="P:Wizemen.NET.Models.ClassAttendance.RepresentingSchool">
+            <summary>
+            No. of classes the student was marked for Representing School
+            </summary>
+        </member>
+        <member name="P:Wizemen.NET.Models.ClassAttendance.ExamLeave">
+            <summary>
+            No. of classes the student was marked for Exam Leave
+            </summary>
+        </member>
+        <member name="P:Wizemen.NET.Models.ClassAttendance.Als">
+            <summary>
+            No. of classes the student was marked for ALS
+            </summary>
+        </member>
+        <member name="P:Wizemen.NET.Models.ClassAttendance.Suspended">
+            <summary>
+            No. of classes the student was marked Suspended
+            </summary>
+        </member>
         <member name="T:Wizemen.NET.Models.Credentials">
             <summary>
             Credentials object used to authenticate user
             </summary>
         </member>
-        <member name="M:Wizemen.NET.Models.Credentials.#ctor(System.String,System.String,Wizemen.NET.SchoolCode)">
+        <member name="M:Wizemen.NET.Models.Credentials.#ctor(System.String,System.String,Wizemen.NET.Models.SchoolCode)">
             <summary>
             Creates the credentials object
             </summary>
@@ -90,7 +236,7 @@
         </member>
         <member name="P:Wizemen.NET.Models.Credentials.SchoolName">
             <summary>
-            The school's Name (Auto generated depending on <see cref="P:Wizemen.NET.Models.Credentials.SchoolCode"/>)
+            The school's Name (Auto generated depending on the <see cref="P:Wizemen.NET.Models.Credentials.SchoolCode"/>)
             </summary>
         </member>
         <member name="T:Wizemen.NET.Models.Event">
@@ -218,6 +364,26 @@
             Teams meetings
             </summary>
         </member>
+        <member name="T:Wizemen.NET.Models.SchoolCode">
+            <summary>
+            The school code of the user's school
+            </summary>
+        </member>
+        <member name="F:Wizemen.NET.Models.SchoolCode.Psn">
+            <summary>
+            Pathways School Noida
+            </summary>
+        </member>
+        <member name="F:Wizemen.NET.Models.SchoolCode.Psg">
+            <summary>
+            Pathways School Gurgaon
+            </summary>
+        </member>
+        <member name="F:Wizemen.NET.Models.SchoolCode.Pws">
+            <summary>
+            Pathways World School, Aravali
+            </summary>
+        </member>
         <member name="T:Wizemen.NET.Models.Student">
             <summary>
             The student object containing all public details of a student
@@ -312,81 +478,6 @@
             <summary>
             The residency status of the student ("Day Student", etc) (Not an enum since other status are not tested)
             </summary>
-        </member>
-        <member name="T:Wizemen.NET.SchoolCode">
-            <summary>
-            The school code of the user's school
-            </summary>
-        </member>
-        <member name="F:Wizemen.NET.SchoolCode.Psn">
-            <summary>
-            Pathways School Noida
-            </summary>
-        </member>
-        <member name="F:Wizemen.NET.SchoolCode.Psg">
-            <summary>
-            Pathways School Gurgaon
-            </summary>
-        </member>
-        <member name="F:Wizemen.NET.SchoolCode.Pws">
-            <summary>
-            Pathways World School, Aravali
-            </summary>
-        </member>
-        <member name="T:Wizemen.NET.WizemenClient">
-            <summary>
-            Client class used to interact with the API.
-            </summary>
-        </member>
-        <member name="M:Wizemen.NET.WizemenClient.#ctor(Wizemen.NET.Models.Credentials)">
-            <summary>
-            Creates a client used to interact with the API
-            </summary>
-            <param name="credentials">The credentials object with the user's credentials</param>
-        </member>
-        <member name="M:Wizemen.NET.WizemenClient.StartAsync">
-            <summary>
-            Login, generate a cookie, and verify the cookie to enable access to the API.
-            </summary>
-            <exception cref="T:System.Security.Authentication.InvalidCredentialException">Thrown if the credentials provided were invalid</exception>
-        </member>
-        <member name="M:Wizemen.NET.WizemenClient.GetMeetingsAsync(Wizemen.NET.Models.MeetingType)">
-            <summary>
-            Gets the meetings for the authenticated user
-            </summary>
-            <param name="meetingType">The type of meeting to get</param>
-            <returns>The meetings found. Returns an empty list if none were found</returns>
-        </member>
-        <member name="M:Wizemen.NET.WizemenClient.GetClassesAsync">
-            <summary>
-            Gets the classes of the authenticated user
-            </summary>
-            <returns>The classes found. Returns an empty list if none were found</returns>
-        </member>
-        <member name="M:Wizemen.NET.WizemenClient.GetClassListAsync(System.String)">
-            <summary>
-            Returns a list of all the students in a class
-            </summary>
-            <param name="classId">The classId to get the students in</param>
-            <returns>A list of the students found. Returns an empty list if none were found (invalid classId)</returns>
-        </member>
-        <member name="M:Wizemen.NET.WizemenClient.GetAttendanceStatusAsync">
-            <summary>
-            Returns the attendance status for all classes of an authenticated user
-            </summary>
-            <returns>The attendance list found. Returns null if not found (unauthorized or server error)</returns>
-        </member>
-        <member name="M:Wizemen.NET.WizemenClient.GetEventsAsync">
-            <summary>
-            Gets the events of the authenticated user
-            </summary>
-            <returns>The events found. Returns an empty list if none were found</returns>
-        </member>
-        <member name="M:Wizemen.NET.WizemenClient.GetMasterAttendanceAsync">
-            <summary>
-            Gets the master attendance (not specific to any subject) for the authenticated user
-            </summary>
-            <returns>The master attendance object found. Returns null if data was not found</returns>
         </member>
     </members>
 </doc>

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Newtonsoft.Json;
+using Wizemen.NET.Models;
 
 namespace Wizemen.NET.Dtos
 {

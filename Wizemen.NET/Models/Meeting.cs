@@ -1,6 +1,4 @@
 ﻿using System;
-using Newtonsoft.Json;
-using Wizemen.NET.Dtos;
 
 namespace Wizemen.NET.Models
 {
@@ -48,21 +46,5 @@ namespace Wizemen.NET.Models
         /// The name of the user who is hosting the meeting
         /// </summary>
         public string Host { get; set; }
-
-        internal static Meeting FromDto(MeetingDto dto)
-        {
-            var meeting = new Meeting {Topic = dto.Topic};
-
-            var time = dto.StartTime;
-            meeting.StartTime = dto.StartDate.AddHours(time.Hour).AddMinutes(time.Minute).AddSeconds(time.Second);
-
-            meeting.Duration = dto.Duration;
-            meeting.Agenda = dto.Agenda;
-            meeting.JoinUrl = dto.JoinUrl;
-            meeting.Password = dto.MeetingPassword;
-            meeting.Host = dto.Host;
-                
-            return meeting;
-        }
     }
 }

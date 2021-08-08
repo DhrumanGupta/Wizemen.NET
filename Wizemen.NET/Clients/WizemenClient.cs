@@ -7,8 +7,9 @@ using System.Threading.Tasks;
 using Newtonsoft.Json;
 using Wizemen.NET.Dtos;
 using Wizemen.NET.Models;
+using Wizemen.NET.Services;
 
-namespace Wizemen.NET
+namespace Wizemen.NET.Clients
 {
     /// <summary>
     /// Client class used to interact with the API.
@@ -20,20 +21,24 @@ namespace Wizemen.NET
         private DateTime _endTime;
 
         /// <summary>
-        /// Creates a client used to interact with the API
+        /// Creates a client used to interact with the API asynchronously
         /// </summary>
         /// <param name="credentials">The credentials object with the user's credentials</param>
-        public WizemenClient(Credentials credentials)
+        /// <exception cref="InvalidCredentialException">Thrown if the credentials provided were invalid</exception>
+        public static async Task<WizemenClient> NewClientAsync(Credentials credentials)
+        {
+            var client = new WizemenClient(credentials);
+            await client.StartAsync();
+            return client;
+        }
+        
+        private WizemenClient(Credentials credentials)
         {
             _credentials = credentials;
             _api = new Api(credentials);
         }
-
-        /// <summary>
-        /// Login, generate a cookie, and verify the cookie to enable access to the API.
-        /// </summary>
-        /// <exception cref="InvalidCredentialException">Thrown if the credentials provided were invalid</exception>
-        public async Task StartAsync()
+        
+        private async Task StartAsync()
         {
             _endTime = DateTime.Now.AddHours(1);
             await RefreshAsync();
@@ -65,11 +70,10 @@ namespace Wizemen.NET
                 {MeetingType.Zoom, "classes/student/VirtualClassZoomStudent.aspx/getScheduledMeetings"},
                 {MeetingType.Teams, "classes/student/VirtualClassTeamsStudent.aspx/getScheduledMeetings"}
             };
-
             var data = await GetDataAsync(linkByPath[meetingType]);
             var meetings = JsonConvert.DeserializeObject<DtoRoot<MeetingDto>>(data)
                            ?? new DtoRoot<MeetingDto>();
-            return meetings.D.Select(Meeting.FromDto).ToList();
+            return meetings.D.Select(Mapping.Mapper.Map<Meeting>).ToList();
         }
 
         /// <summary>
@@ -84,46 +88,7 @@ namespace Wizemen.NET
             var classes = JsonConvert.DeserializeObject<DtoRoot<ClassDto>>(data)
                           ?? new DtoRoot<ClassDto>();
 
-            return classes.D.Select(Class.FromDto).ToList();
-        }
-
-        /// <summary>
-        /// Returns a list of all the students in a class
-        /// </summary>
-        /// <param name="classId">The classId to get the students in</param>
-        /// <returns>A list of the students found. Returns an empty list if none were found (invalid classId)</returns>
-        public async Task<List<Student>> GetClassListAsync(string classId)
-        {
-            await RefreshIfNeededAsync();
-            await _api.Request("classes/student/studenthomeold.aspx/setclasssession",
-                new
-                {
-                    class_id = classId, classname = ""
-                });
-
-            var data = await _api.Request("classes/faculty/facultyclassroster.aspx/showclasslist",
-                new {menuid = ""});
-
-            var students = JsonConvert.DeserializeObject<DtoRoot<Student>>(await data.Content.ReadAsStringAsync())
-                           ?? new DtoRoot<Student>();
-
-            return students.D;
-        }
-
-        /// <summary>
-        /// Returns the attendance status for all classes of an authenticated user
-        /// </summary>
-        /// <returns>The attendance list found. Returns null if not found (unauthorized or server error)</returns>
-        public async Task<List<ClassAttendance>> GetAttendanceStatusAsync()
-        {
-            await RefreshIfNeededAsync();
-            var data =
-                await GetDataAsync("classes/student/studentattendance.aspx/getAttendanceStatus");
-            
-            var students = JsonConvert.DeserializeObject<DtoRoot<ClassAttendance>>(data)
-                           ?? new DtoRoot<ClassAttendance>();
-
-            return students.D;
+            return classes.D.Select(Mapping.Mapper.Map<Class>).ToList();
         }
 
         /// <summary>
@@ -141,9 +106,48 @@ namespace Wizemen.NET
             var events = JsonConvert.DeserializeObject<DtoRoot<EventDto>>(data)
                          ?? new DtoRoot<EventDto>();
 
-            return events.D.Select(Event.FromDto).ToList();
+            return events.D.Select(x => x.ToObject()).ToList();
         }
-        
+
+        /// <summary>
+        /// Returns a list of all the students in a class
+        /// </summary>
+        /// <param name="classId">The classId to get the students in</param>
+        /// <returns>A list of the students found. Returns an empty list if none were found (invalid classId)</returns>
+        public async Task<List<Student>> GetClassListAsync(int classId)
+        {
+            await RefreshIfNeededAsync();
+            await _api.Request("classes/student/studenthomeold.aspx/setclasssession",
+                new
+                {
+                    class_id = classId.ToString(), classname = ""
+                });
+
+            var data = await _api.Request("classes/faculty/facultyclassroster.aspx/showclasslist",
+                new {menuid = ""});
+
+            var students = JsonConvert.DeserializeObject<DtoRoot<StudentDto>>(await data.Content.ReadAsStringAsync())
+                           ?? new DtoRoot<StudentDto>();
+
+            return students.D.Select(Mapping.Mapper.Map<Student>).ToList();
+        }
+
+        /// <summary>
+        /// Returns the attendance status for all classes of an authenticated user
+        /// </summary>
+        /// <returns>The attendance list found. Returns null if not found (unauthorized or server error)</returns>
+        public async Task<List<ClassAttendance>> GetAttendanceStatusAsync()
+        {
+            await RefreshIfNeededAsync();
+            var data =
+                await GetDataAsync("classes/student/studentattendance.aspx/getAttendanceStatus");
+            
+            var students = JsonConvert.DeserializeObject<DtoRoot<ClassAttendanceDto>>(data)
+                           ?? new DtoRoot<ClassAttendanceDto>();
+
+            return students.D.Select(Mapping.Mapper.Map<ClassAttendance>).ToList();
+        }
+
         /// <summary>
         /// Gets the master attendance (not specific to any subject) for the authenticated user
         /// </summary>

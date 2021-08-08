@@ -4,7 +4,7 @@ namespace Wizemen.NET.Dtos
 {
     internal class ClassDto
     {
-        [JsonProperty("program")] public string Program { get; set; }
+        [JsonProperty("program")] public string ProgramName { get; set; }
 
         [JsonProperty("grade")] public string Grade { get; set; }
 
@@ -18,5 +18,7 @@ namespace Wizemen.NET.Dtos
 
         [JsonProperty("subject")] public string Subject { get; set; }
 
-        [JsonProperty("course")] public string Course { get; set; } }
+        [JsonProperty("course")] public string Course { get; set; }
+
+    }
 }

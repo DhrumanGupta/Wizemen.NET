@@ -1,4 +1,4 @@
-﻿namespace Wizemen.NET
+﻿namespace Wizemen.NET.Models
 {
     /// <summary>
     /// The school code of the user's school

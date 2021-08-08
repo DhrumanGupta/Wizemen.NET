@@ -1,6 +1,4 @@
-﻿using Wizemen.NET.Dtos;
-
-namespace Wizemen.NET.Models
+﻿namespace Wizemen.NET.Models
 {
     /// <summary>
     /// A wizemen class a user is enrolled in
@@ -46,20 +44,5 @@ namespace Wizemen.NET.Models
         /// The course of the class
         /// </summary>
         public string Course { get; set; }
-
-        internal static Class FromDto(ClassDto dto)
-        {
-            return new()
-            {
-                ProgramName = dto.Program,
-                Grade = dto.Grade,
-                ClassCode = dto.ClassCode,
-                ClassId = dto.ClassId,
-                TeacherName = dto.TeacherName,
-                TeacherId = dto.TeacherId,
-                Subject = dto.Subject,
-                Course = dto.Course
-            };
-        }
     }
 }
