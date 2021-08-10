@@ -10,27 +10,15 @@
     </PropertyGroup>
 
     <PropertyGroup>
-        <DocumentationFile>$(MSBuildProjectDirectory)\README.md</DocumentationFile>
-        <GenerateDocumentationFile>true</GenerateDocumentationFile>
-    </PropertyGroup>
-
-    <PropertyGroup>
+        <DocumentationFile>$(MSBuildProjectDirectory)\$(AssemblyName).md</DocumentationFile>
         <DocumentationFile>$(MSBuildProjectDirectory)\$(AssemblyName).xml</DocumentationFile>
         <GenerateDocumentationFile>true</GenerateDocumentationFile>
     </PropertyGroup>
     
-    
-    <ItemDefinitionGroup>
-        <PostBuildEvent>
-            <Message>Renaming documentation</Message>
-            <Command>rename $(MSBuildProjectDirectory)\$(AssemblyName).md $(MSBuildProjectDirectory)\README.md</Command>
-        </PostBuildEvent>
-    </ItemDefinitionGroup>
-    
     <ItemGroup>
         <PackageReference Include="AutoMapper" Version="10.1.1" />
         <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
-        <PackageReference Include="Vsxmd" Version="1.4.5">
+        <PackageReference Include="Vsxmd" Version="1.4.4">
             <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
             <PrivateAssets>all</PrivateAssets>
         </PackageReference>

@@ -29,6 +29,12 @@
             </summary>
             <returns>The classes found. Returns an empty list if none were found</returns>
         </member>
+        <member name="M:Wizemen.NET.Clients.WizemenClient.GetEventsAsync">
+            <summary>
+            Gets the events of the authenticated user
+            </summary>
+            <returns>The events found. Returns an empty list if none were found</returns>
+        </member>
         <member name="M:Wizemen.NET.Clients.WizemenClient.GetClassListAsync(System.Int32)">
             <summary>
             Returns a list of all the students in a class
@@ -41,12 +47,6 @@
             Returns the attendance status for all classes of an authenticated user
             </summary>
             <returns>The attendance list found. Returns null if not found (unauthorized or server error)</returns>
-        </member>
-        <member name="M:Wizemen.NET.Clients.WizemenClient.GetEventsAsync">
-            <summary>
-            Gets the events of the authenticated user
-            </summary>
-            <returns>The events found. Returns an empty list if none were found</returns>
         </member>
         <member name="M:Wizemen.NET.Clients.WizemenClient.GetMasterAttendanceAsync">
             <summary>
