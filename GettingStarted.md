@@ -4,7 +4,8 @@
 
 To be able to use the library and it's features, you must include this in your project.
 
-Install with Install-Package (Visual Studio): `Install-Package Wizemen.NET` or    
+Install with Install-Package (Visual Studio): `Install-Package Wizemen.NET`  
+or      
 Install with dotnet CLI: `dotnet add package Wizemen.NET`
 
 ## Creating Client
