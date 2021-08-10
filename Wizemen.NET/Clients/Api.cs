@@ -46,7 +46,7 @@ namespace Wizemen.NET.Clients
                     {"Accept", "application/json, text/javascript, */*; q=0.01"},
                     {"Accept-Encoding", "gzip, deflate, br"},
                     {"Host", _domainLink},
-                    {"Origin", _client.BaseAddress.ToString()},
+                    {"Origin", _client.BaseAddress?.ToString()},
                     {
                         "User-Agent",
                         "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.164 Safari/537.36"
