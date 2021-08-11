@@ -24,8 +24,8 @@
       },
       {
         "files": [
-          "articles/**.md",
-          "articles/**/toc.yml",
+          "guides/**.md",
+          "guides/**/toc.yml",
           "toc.yml",
           "*.md"
         ]
@@ -34,7 +34,9 @@
     "resource": [
       {
         "files": [
-          "images/**"
+          "images/**",
+          "logo.svg",
+          "favicon.ico"
         ]
       }
     ],
@@ -53,7 +55,8 @@
     "globalMetadataFiles": [],
     "fileMetadataFiles": [],
     "template": [
-      "statictoc"
+      "default",
+      "templates/discordfx"
     ],
     "postProcessors": [],
     "markdownEngineName": "markdig",
