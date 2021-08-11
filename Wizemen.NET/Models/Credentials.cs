@@ -10,7 +10,7 @@ namespace Wizemen.NET.Models
     /// </summary>
     public class Credentials
     {
-        private readonly Dictionary<SchoolCode, string> _schoolNameByCode = new()
+        private readonly Dictionary<SchoolCode, string> _schoolNameByCode = new Dictionary<SchoolCode, string>()
         {
             {SchoolCode.Psn, "Pathways School Noida"},
             {SchoolCode.Psg, "Pathways School Gurgaon"},

@@ -43,7 +43,7 @@ namespace Wizemen.NET.Dtos
 
         internal Event ToObject()
         {
-            return new()
+            return new Event()
             {
                 Type = EventType,
                 Id = EventId,
