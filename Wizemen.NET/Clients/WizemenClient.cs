@@ -20,24 +20,12 @@ namespace Wizemen.NET.Clients
         private readonly Credentials _credentials;
         private DateTime _endTime;
 
-        /// <summary>
-        /// Creates a client used to interact with the API asynchronously
-        /// </summary>
-        /// <param name="credentials">The credentials object with the user's credentials</param>
-        /// <exception cref="InvalidCredentialException">Thrown if the credentials provided were invalid</exception>
-        public static async Task<WizemenClient> NewClientAsync(Credentials credentials)
-        {
-            var client = new WizemenClient(credentials);
-            await client.StartAsync();
-            return client;
-        }
-        
         private WizemenClient(Credentials credentials)
         {
             _credentials = credentials;
             _api = new Api(credentials);
         }
-        
+
         private async Task StartAsync()
         {
             _endTime = DateTime.Now.AddHours(1);
@@ -51,10 +39,24 @@ namespace Wizemen.NET.Clients
             var data = await _api.Request("generaldata.asmx/openPortal",
                 new {portalCode = "WIZPOR6", schoolName = _credentials.SchoolName});
 
+            if (!data.IsSuccessStatusCode) throw new InvalidCredentialException();
+
             var link =
                 JsonConvert.DeserializeObject<dynamic>(await data.Content.ReadAsStringAsync())?.d.ToString();
 
             await _api.Request(link!, null, HttpMethod.Get, true);
+        }
+
+        /// <summary>
+        /// Creates a client used to interact with the API asynchronously
+        /// </summary>
+        /// <param name="credentials">The credentials object with the user's credentials</param>
+        /// <exception cref="InvalidCredentialException">Thrown if the credentials provided were invalid</exception>
+        public static async Task<WizemenClient> NewClientAsync(Credentials credentials)
+        {
+            var client = new WizemenClient(credentials);
+            await client.StartAsync();
+            return client;
         }
 
         /// <summary>
@@ -141,7 +143,7 @@ namespace Wizemen.NET.Clients
             await RefreshIfNeededAsync();
             var data =
                 await GetDataAsync("classes/student/studentattendance.aspx/getAttendanceStatus");
-            
+
             var students = JsonConvert.DeserializeObject<DtoRoot<ClassAttendanceDto>>(data)
                            ?? new DtoRoot<ClassAttendanceDto>();
 
@@ -178,15 +180,38 @@ namespace Wizemen.NET.Clients
 
             var imperfectData =
                 data.Substring(
-                        data.IndexOf(imperfectFilter, StringComparison.InvariantCultureIgnoreCase) + imperfectFilter.Length,
+                        data.IndexOf(imperfectFilter, StringComparison.InvariantCultureIgnoreCase) +
+                        imperfectFilter.Length,
                         3)
                     .Split('/')[0];
 
             if (!int.TryParse(imperfectData, out int imperfectDays)) return null;
-            
-            return new MasterAttendance{TotalDays = totalDays,  Absent = absentDays, Imperfect = imperfectDays, Present = presentDays};
+
+            return new MasterAttendance
+                {TotalDays = totalDays, Absent = absentDays, Imperfect = imperfectDays, Present = presentDays};
         }
-        
+
+        /// <summary>
+        /// Gets the class schedule on wizemen for the current week
+        /// </summary>
+        /// <returns>The class schedule found</returns>
+        public async Task<List<ClassSchedule>> GetClassScheduleAsync()
+        {
+            await RefreshIfNeededAsync();
+            var response = await _api.Request("classes/generaldata.asmx/LoadClassScheduleNew",
+                new
+                {
+                    Counter = 0, week = "currentweek"
+                });
+
+            var x = await response.Content.ReadAsStringAsync();
+            Console.WriteLine(x);
+            var students = JsonConvert.DeserializeObject<DtoRoot<ClassScheduleDto>>(x)
+                           ?? new DtoRoot<ClassScheduleDto>();
+
+            return students.D.Select(Mapping.Mapper.Map<ClassSchedule>).ToList();
+        }
+
         #region Helpers
 
         private async Task<string> GetDataAsync(string path)

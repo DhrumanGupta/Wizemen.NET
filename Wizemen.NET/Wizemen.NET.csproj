@@ -7,20 +7,25 @@
         <AssemblyName>Wizemen.NET</AssemblyName>
         <GenerateDocumentationFile>true</GenerateDocumentationFile>
         <IncludeSymbols>true</IncludeSymbols>
+        <SymbolPackageFormat>snupkg</SymbolPackageFormat>
         <Description>An asynchronous .NET library to interact with wizement.net</Description>
         <Summary>An asynchronous .NET library to interact with wizement.net</Summary>
-        <PackageVersion>1.1.1</PackageVersion>
+        <PackageVersion>1.1.2</PackageVersion>
         <Authors>Dhruman Gupta</Authors>
         <PackageLicenseExpression>MIT</PackageLicenseExpression>
         <PackageTags>wizemen</PackageTags>
         <PackageIcon>packageIcon.png</PackageIcon>
-        <PackageIconFullPath>$(MSBuildThisFileDirectory)packageIcon.png</PackageIconFullPath>
+        <PackageIconFullPath>packageIcon.png</PackageIconFullPath>
         <RepositoryUrl>https://github.com/DhrumanGupta/Wizemen.NET</RepositoryUrl>
         <LangVersion>latest</LangVersion>
     </PropertyGroup>
-    
+
     <ItemGroup>
         <PackageReference Include="AutoMapper" Version="10.1.1" />
         <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
+        <None Include="packageIcon.png">
+            <Pack>true</Pack>
+            <PackagePath></PackagePath>
+        </None>
     </ItemGroup>
 </Project>

@@ -19,6 +19,7 @@ namespace Wizemen.NET.Services
                 cfg.AddProfile<StudentProfile>();
                 cfg.AddProfile<ClassAttendanceProfile>();
                 cfg.AddProfile<EventProfile>();
+                cfg.AddProfile<ClassScheduleProfile>();
             });
             var mapper = config.CreateMapper();
             return mapper;

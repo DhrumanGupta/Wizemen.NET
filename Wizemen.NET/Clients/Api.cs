@@ -53,15 +53,15 @@ namespace Wizemen.NET.Clients
                     },
                     {"X-Requested-With", "XMLHttpRequest"}
                 }
-                
             };
 
             if (!ignoreContent)
             {
                 message.Content = data;
             }
-            
+
             var request = await _client.SendAsync(message);
+
             return request;
         }
 
