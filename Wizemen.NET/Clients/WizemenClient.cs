@@ -205,7 +205,6 @@ namespace Wizemen.NET.Clients
                 });
 
             var x = await response.Content.ReadAsStringAsync();
-            Console.WriteLine(x);
             var students = JsonConvert.DeserializeObject<DtoRoot<ClassScheduleDto>>(x)
                            ?? new DtoRoot<ClassScheduleDto>();
 
