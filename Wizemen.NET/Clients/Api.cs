@@ -75,12 +75,6 @@ namespace Wizemen.NET.Clients
 
         internal async Task Login()
         {
-            var errors = new[]
-            {
-                "Incorrect Password Entered.",
-                "This Email ID is not registered with Wizemen."
-            };
-
             var request = await Request("homecontrollers/login/validateUser",
                 new
                 {
@@ -92,7 +86,7 @@ namespace Wizemen.NET.Clients
 
             var content = await request.Content.ReadAsStringAsync();
 
-            if (errors.Contains(content, StringComparer.InvariantCultureIgnoreCase))
+            if (!content.Contains("success_student", StringComparison.InvariantCultureIgnoreCase))
             {
                 throw new InvalidCredentialException(content);
             }

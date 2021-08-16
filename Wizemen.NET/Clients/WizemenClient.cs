@@ -73,9 +73,9 @@ namespace Wizemen.NET.Clients
                 {MeetingType.Teams, "classes/student/VirtualClassTeamsStudent.aspx/getScheduledMeetings"}
             };
             var data = await GetDataAsync(linkByPath[meetingType]);
-            var meetings = JsonConvert.DeserializeObject<DtoRoot<MeetingDto>>(data)
-                           ?? new DtoRoot<MeetingDto>();
-            return meetings.D.Select(Mapping.Mapper.Map<Meeting>).ToList();
+            var meetings = JsonConvert.DeserializeObject<DtoRootMultiple<MeetingDto>>(data)
+                           ?? new DtoRootMultiple<MeetingDto>();
+            return meetings.Content.Select(MappingService.Mapper.Map<Meeting>).ToList();
         }
 
         /// <summary>
@@ -87,10 +87,10 @@ namespace Wizemen.NET.Clients
             await RefreshIfNeededAsync();
             const string path = "classes/student/allclasses.aspx/getClassList";
             var data = await GetDataAsync(path);
-            var classes = JsonConvert.DeserializeObject<DtoRoot<ClassDto>>(data)
-                          ?? new DtoRoot<ClassDto>();
+            var classes = JsonConvert.DeserializeObject<DtoRootMultiple<ClassListDto>>(data)
+                          ?? new DtoRootMultiple<ClassListDto>();
 
-            return classes.D.Select(Mapping.Mapper.Map<Class>).ToList();
+            return classes.Content.Select(MappingService.Mapper.Map<Class>).ToList();
         }
 
         /// <summary>
@@ -105,10 +105,10 @@ namespace Wizemen.NET.Clients
             var response = await _api.Request(path, new {movdir = "Current"});
 
             var data = await response.Content.ReadAsStringAsync();
-            var events = JsonConvert.DeserializeObject<DtoRoot<EventDto>>(data)
-                         ?? new DtoRoot<EventDto>();
+            var events = JsonConvert.DeserializeObject<DtoRootMultiple<EventDto>>(data)
+                         ?? new DtoRootMultiple<EventDto>();
 
-            return events.D.Select(x => x.ToObject()).ToList();
+            return events.Content.Select(MappingService.Mapper.Map<Event>).ToList();
         }
 
         /// <summary>
@@ -116,7 +116,7 @@ namespace Wizemen.NET.Clients
         /// </summary>
         /// <param name="classId">The classId to get the students in</param>
         /// <returns>A list of the students found. Returns an empty list if none were found (invalid classId)</returns>
-        public async Task<List<Student>> GetClassListAsync(int classId)
+        public async Task<List<Student>> GetStudentsInClass(int classId)
         {
             await RefreshIfNeededAsync();
             await _api.Request("classes/student/studenthomeold.aspx/setclasssession",
@@ -128,10 +128,55 @@ namespace Wizemen.NET.Clients
             var data = await _api.Request("classes/faculty/facultyclassroster.aspx/showclasslist",
                 new {menuid = ""});
 
-            var students = JsonConvert.DeserializeObject<DtoRoot<StudentDto>>(await data.Content.ReadAsStringAsync())
-                           ?? new DtoRoot<StudentDto>();
+            var students =
+                JsonConvert.DeserializeObject<DtoRootMultiple<StudentDto>>(await data.Content.ReadAsStringAsync())
+                ?? new DtoRootMultiple<StudentDto>();
 
-            return students.D.Select(Mapping.Mapper.Map<Student>).ToList();
+            return students.Content.Select(MappingService.Mapper.Map<Student>).ToList();
+        }
+
+        /// <summary>
+        /// Gets information for the provided classId.
+        /// </summary>
+        /// <remarks>
+        /// This uses an endpoint that returns only the Class Id, Name, Code and Grade.
+        /// If you are not worried about over-fetching and the authenticated user is in the class responding to the classId,
+        /// use <see cref="GetClassesAsync">GetClassesAsync</see> and then filter by ID to get more details.</remarks>
+        /// <param name="classId">The classId to get the info of</param>
+        /// <returns>A the class object. Returns null if not found (invalid classId)</returns>
+        public async Task<Class> GetClass(int classId)
+        {
+            await RefreshIfNeededAsync();
+            await _api.Request("classes/student/studenthomeold.aspx/setclasssession",
+                new
+                {
+                    class_id = classId.ToString(), classname = ""
+                });
+
+            var data = await _api.Request("classes/student/studentclassroster.aspx/getteacherdetail", new { });
+            
+            var classObj =
+                JsonConvert.DeserializeObject<DtoRootMultiple<ClassSingleDto>>(await data.Content.ReadAsStringAsync()) ??
+                new DtoRootMultiple<ClassSingleDto>();
+
+            return MappingService.Mapper.Map<Class>(classObj.Content[0]);
+        }
+
+        public async Task<Teacher> GetClassTeacherAsync(int classId)
+        {
+            await RefreshIfNeededAsync();
+            await _api.Request("classes/student/studenthomeold.aspx/setclasssession",
+                new {class_id = classId.ToString(), classname = ""});
+
+            var data = await _api.Request("classes/student/studenthomeold.aspx/getclasscode", new { });
+
+            var x = await data.Content.ReadAsStringAsync();
+            
+            var students =
+                JsonConvert.DeserializeObject<DtoRootSingle<TeacherDto>>(x)
+                ?? new DtoRootSingle<TeacherDto>();
+
+            return MappingService.Mapper.Map<Teacher>(students.Content);
         }
 
         /// <summary>
@@ -144,10 +189,10 @@ namespace Wizemen.NET.Clients
             var data =
                 await GetDataAsync("classes/student/studentattendance.aspx/getAttendanceStatus");
 
-            var students = JsonConvert.DeserializeObject<DtoRoot<ClassAttendanceDto>>(data)
-                           ?? new DtoRoot<ClassAttendanceDto>();
+            var students = JsonConvert.DeserializeObject<DtoRootMultiple<ClassAttendanceDto>>(data)
+                           ?? new DtoRootMultiple<ClassAttendanceDto>();
 
-            return students.D.Select(Mapping.Mapper.Map<ClassAttendance>).ToList();
+            return students.Content.Select(MappingService.Mapper.Map<ClassAttendance>).ToList();
         }
 
         /// <summary>
@@ -205,10 +250,10 @@ namespace Wizemen.NET.Clients
                 });
 
             var x = await response.Content.ReadAsStringAsync();
-            var students = JsonConvert.DeserializeObject<DtoRoot<ClassScheduleDto>>(x)
-                           ?? new DtoRoot<ClassScheduleDto>();
+            var students = JsonConvert.DeserializeObject<DtoRootMultiple<ClassScheduleDto>>(x)
+                           ?? new DtoRootMultiple<ClassScheduleDto>();
 
-            return students.D.Select(Mapping.Mapper.Map<ClassSchedule>).ToList();
+            return students.Content.Select(MappingService.Mapper.Map<ClassSchedule>).ToList();
         }
 
         #region Helpers

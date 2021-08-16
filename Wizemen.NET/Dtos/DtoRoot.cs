@@ -3,14 +3,24 @@ using Newtonsoft.Json;
 
 namespace Wizemen.NET.Dtos
 {
-    internal class DtoRoot<T>
+    internal class DtoRootMultiple<T>
     {
         [JsonProperty("d")] 
-        public List<T> D { get; set; }
+        public List<T> Content { get; set; }
 
-        public DtoRoot()
+        public DtoRootMultiple()
         {
-            D = new List<T>();
+            Content = new List<T>();
+        }
+    }
+
+    internal class DtoRootSingle<T>
+    {
+        [JsonProperty("d")] public T Content { get; set; }
+
+        public DtoRootSingle()
+        {
+            Content = default;
         }
     }
 }

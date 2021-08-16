@@ -8,7 +8,8 @@ namespace Wizemen.NET.Profiles
     {
         public ClassProfile()
         {
-            CreateMap<ClassDto, Class>();
+            CreateMap<ClassListDto, Class>();
+            CreateMap<ClassSingleDto, Class>();
         }
     }
 }

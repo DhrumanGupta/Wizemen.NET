@@ -18,7 +18,7 @@
         /// <summary>
         /// The id of the class
         /// </summary>
-        public int ClassId { get; set; }
+        public int Id { get; set; }
 
         /// <summary>
         /// The id of the class's teacher
@@ -33,7 +33,7 @@
         /// <summary>
         /// The class's code
         /// </summary>
-        public string ClassCode { get; set; }
+        public string Code { get; set; }
 
         /// <summary>
         /// The subject of the class
@@ -41,8 +41,8 @@
         public string Subject { get; set; }
 
         /// <summary>
-        /// The course of the class
+        /// The name of the class
         /// </summary>
-        public string Course { get; set; }
+        public string Name { get; set; }
     }
 }
