@@ -21,7 +21,7 @@ namespace Wizemen.NET.Models
         public string PhoneNumber { get; set; }
         
         /// <summary>
-        /// The relative path to the teacher's image
+        /// The url to the teacher's image
         /// </summary>
         public string ImagePath { get; set; }
         

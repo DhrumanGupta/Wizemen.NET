@@ -153,30 +153,38 @@ namespace Wizemen.NET.Clients
                     class_id = classId.ToString(), classname = ""
                 });
 
-            var data = await _api.Request("classes/student/studentclassroster.aspx/getteacherdetail", new { });
-            
-            var classObj =
-                JsonConvert.DeserializeObject<DtoRootMultiple<ClassSingleDto>>(await data.Content.ReadAsStringAsync()) ??
-                new DtoRootMultiple<ClassSingleDto>();
+            var data = await _api.Request("classes/student/studenthomeold.aspx/getclasscode", new { });
 
-            return MappingService.Mapper.Map<Class>(classObj.Content[0]);
+            var classObj =
+                JsonConvert.DeserializeObject<DtoRootSingle<ClassSingleDto>>(await data.Content.ReadAsStringAsync()) ??
+                new DtoRootSingle<ClassSingleDto>();
+
+            return MappingService.Mapper.Map<Class>(classObj.Content);
         }
 
+        /// <summary>
+        /// Gets the teacher for the given class Id
+        /// </summary>
+        /// <param name="classId">The classId that represents the class</param>
+        /// <returns>The teacher found. Returns null if not found (invalid classId)</returns>
         public async Task<Teacher> GetClassTeacherAsync(int classId)
         {
             await RefreshIfNeededAsync();
             await _api.Request("classes/student/studenthomeold.aspx/setclasssession",
                 new {class_id = classId.ToString(), classname = ""});
 
-            var data = await _api.Request("classes/student/studenthomeold.aspx/getclasscode", new { });
+            var data = await _api.Request("classes/student/studentclassroster.aspx/getteacherdetail", new { });
 
             var x = await data.Content.ReadAsStringAsync();
-            
-            var students =
-                JsonConvert.DeserializeObject<DtoRootSingle<TeacherDto>>(x)
-                ?? new DtoRootSingle<TeacherDto>();
 
-            return MappingService.Mapper.Map<Teacher>(students.Content);
+            var students =
+                JsonConvert.DeserializeObject<DtoRootMultiple<TeacherDto>>(x)
+                ?? new DtoRootMultiple<TeacherDto>();
+
+            if (students.Content.Count <= 0) return null;
+            var teacher = MappingService.Mapper.Map<Teacher>(students.Content[0]);
+            teacher.ImagePath = $"https://{_credentials.SchoolCode}.wizemen.net{teacher.ImagePath}";
+            return teacher;
         }
 
         /// <summary>

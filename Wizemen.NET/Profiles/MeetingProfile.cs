@@ -10,9 +10,9 @@ namespace Wizemen.NET.Profiles
         {
             CreateMap<MeetingDto, Meeting>()
                 .ForMember(x => x.StartTime,
-                    x => x.MapFrom(y => 
-                        y.StartDate.AddHours(y.StartTime.Hour).AddMinutes(y.StartDate.Minute).AddSeconds(
-                            y.StartDate.Second)))
+                    x => x.MapFrom((y, a) => 
+                        y.StartDate.AddHours(y.StartTime.Hour).AddMinutes(y.StartTime.Minute).AddSeconds(
+                            y.StartTime.Second)))
                 .ForMember(x => x.Password,
                     x => x.MapFrom(y => y.MeetingPassword));
         }
