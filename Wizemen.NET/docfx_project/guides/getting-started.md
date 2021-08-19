@@ -62,7 +62,7 @@ To learn more about what disposing means, check out [this article by technopedia
 
 ## How can I go through all the features?
 
-You can refer to the [documentation](/api) to find all methods.
+You can refer to the [documentation](../api) to find all methods.
 
 ## End note
 
