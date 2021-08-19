@@ -27,6 +27,9 @@ namespace Wizemen.NET.Clients
             _api = new Api(credentials);
         }
 
+        /// <summary>
+        /// Destructor for the Client.
+        /// </summary>
         ~WizemenClient() => this.Dispose(false);
         
         private async Task StartAsync()
