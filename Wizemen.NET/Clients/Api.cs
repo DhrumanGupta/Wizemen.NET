@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Security.Authentication;
@@ -10,8 +9,9 @@ using Wizemen.NET.Models;
 
 namespace Wizemen.NET.Clients
 {
-    internal class Api
+    internal class Api : IDisposable
     {
+        private bool _disposed = false;
         private readonly CookieContainer _cookies = new();
 
         private readonly HttpClient _client;
@@ -29,6 +29,8 @@ namespace Wizemen.NET.Clients
 
             _client.BaseAddress = new Uri($"https://{_domainLink}");
         }
+
+        ~Api() => this.Dispose(false);
 
 #nullable enable
         internal async Task<HttpResponseMessage> Request(string path,
@@ -90,6 +92,27 @@ namespace Wizemen.NET.Clients
             {
                 throw new InvalidCredentialException(content);
             }
+        }
+
+        // Public implementation of Dispose pattern callable by consumers.
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        private void Dispose(bool disposing)
+        {
+            if (_disposed)
+            {
+                return;
+            }
+
+            if (disposing)
+            {
+                _client?.Dispose();
+            }
+            _disposed = true;
         }
     }
 }

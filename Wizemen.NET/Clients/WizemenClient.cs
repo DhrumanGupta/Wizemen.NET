@@ -14,11 +14,12 @@ namespace Wizemen.NET.Clients
     /// <summary>
     /// Client class used to interact with the API.
     /// </summary>
-    public class WizemenClient
+    public class WizemenClient : IDisposable
     {
+        private bool _disposed;
         private readonly Api _api;
         private readonly Credentials _credentials;
-        private DateTime _endTime;
+        private DateTime _cookieEndTime;
 
         private WizemenClient(Credentials credentials)
         {
@@ -26,20 +27,32 @@ namespace Wizemen.NET.Clients
             _api = new Api(credentials);
         }
 
+        ~WizemenClient() => this.Dispose(false);
+        
         private async Task StartAsync()
         {
-            _endTime = DateTime.Now.AddHours(1);
+            _cookieEndTime = DateTime.Now.AddHours(1);
             await RefreshAsync();
         }
 
         private async Task RefreshAsync()
         {
             await _api.Login();
+            
+            // Over here we open portals we know of in a specific order to allow wizemen endpoints to send data to us for the respective portals
+            // Does make sense? No! Its wizemen. They have 3 endpoints for user data, and 2 steps to verify (not 2FA, just 2 steps)
+            // a cookie. They use POST to get data, and GET to logout. Never, will it ever make sense.
+            var knownPortals = new[] {1, 2, 3, 5, 6, 8, 9, 10};
+            var tasks = knownPortals.Select(OpenPortal).ToArray();
+            await Task.WhenAll(tasks);
+        }
 
+        private async Task OpenPortal(int portalCode)
+        {
             var data = await _api.Request("generaldata.asmx/openPortal",
-                new {portalCode = "WIZPOR6", schoolName = _credentials.SchoolName});
+                new {portalCode = $"WIZPOR{portalCode}", schoolName = _credentials.SchoolName});
 
-            if (!data.IsSuccessStatusCode) throw new InvalidCredentialException();
+            if (!data.IsSuccessStatusCode) throw new InvalidCredentialException("Invalid Credentials Provided");
 
             var link =
                 JsonConvert.DeserializeObject<dynamic>(await data.Content.ReadAsStringAsync())?.d.ToString();
@@ -260,8 +273,36 @@ namespace Wizemen.NET.Clients
             var x = await response.Content.ReadAsStringAsync();
             var students = JsonConvert.DeserializeObject<DtoRootMultiple<ClassScheduleDto>>(x)
                            ?? new DtoRootMultiple<ClassScheduleDto>();
-
             return students.Content.Select(MappingService.Mapper.Map<ClassSchedule>).ToList();
+        }
+
+
+        /// <summary>
+        /// Disposes the client. Safely disposes all resources used in order to prevent memory leaks
+        /// </summary>
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        /// <summary>
+        /// Disposes the objects.
+        /// </summary>
+        /// <param name="disposing">States whether the object is current being disposed</param>
+        protected virtual void Dispose(bool disposing)
+        {
+            if (_disposed)
+            {
+                return;
+            }
+
+            if (disposing)
+            {
+                _api?.Dispose();
+            }
+
+            _disposed = true;
         }
 
         #region Helpers
@@ -274,7 +315,7 @@ namespace Wizemen.NET.Clients
 
         private async Task RefreshIfNeededAsync()
         {
-            if (DateTime.Now > _endTime)
+            if (DateTime.Now > _cookieEndTime)
             {
                 await RefreshAsync();
             }

@@ -16,7 +16,8 @@ namespace Testing
 
         private static async Task Async()
         {
-            var client = await WizemenClient.NewClientAsync(JsonConvert.DeserializeObject<Credentials>(await File.ReadAllTextAsync("config.json")));
+            var credentials = JsonConvert.DeserializeObject<Credentials>(await File.ReadAllTextAsync("config.json"));
+            var client = await WizemenClient.NewClientAsync(credentials);
             Console.WriteLine(JsonConvert.SerializeObject(await client.GetMeetingsAsync(MeetingType.Zoom), Formatting.Indented));
         }
     }

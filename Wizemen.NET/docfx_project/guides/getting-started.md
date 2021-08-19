@@ -24,7 +24,7 @@ If the credentials provided were incorrect, a `InvalidCredentialException` is th
 
 ## Using the Client
 
-Once the client is successfuly created, you can access it's methods that return deserialized data.  
+Once the client is successfully created, you can access it's methods that return deserialized data.  
 For example, you can fetch all your meetings by calling the `GetMeetingsAsync` method. Note that this takes
 a `MeetingType` as it's parameter.
 
@@ -35,6 +35,30 @@ List<Meeting> zoomMeetings = await client.GetMeetingsAsync(MeetingType.Zoom);
 // Get all scheduled team meetings
 List<Meeting> teamMeetings = await client.GetMeetingsAsync(MeetingType.Teams);
 ```
+
+## Disposing the client  
+If the application will run after the client has been used, and the client need not be used again, its generally good practice to dispose the client. This will free up memory space.  
+  
+The client can be disposed with called the `Dispose()` method. For most use cases, it is a good idea to use this client with a `using` statement which will automatically dispose the object. However, you might want to use the client in many places, hence the `Dispose()` method might be more useful.  
+
+Disposing with the `Dispose()` method:
+```csharp
+Credentials credentials = new Credentials("wizemen@example.com", "pa$$w0rd", SchoolCode.Psg);  
+WizemenClient client = await WizemenClient.NewClientAsync(credentials);
+var meetings = await client.GetMeetingsAsync(MeetingType.Zoom);
+client.Dispose();
+```
+  
+Disposing with a `using` statement:
+```csharp
+Credentials credentials = new Credentials("wizemen@example.com", "pa$$w0rd", SchoolCode.Psg);  
+using (WizemenClient client = await WizemenClient.NewClientAsync(credentials))
+{
+    var meetings = await client.GetMeetingsAsync(MeetingType.Zoom);
+}
+// Client will be disposed before it reaches this (disposed after everything in scope is executed) 
+```
+To learn more about what disposing means, check out [this article by technopedia](https://www.techopedia.com/definition/25610/dispose-c).
 
 ## How can I go through all the features?
 
